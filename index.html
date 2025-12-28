@@ -7,6 +7,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
+        @font-face {
+            font-family: 'MyCustomFont'; /* Придумайте имя для шрифта */
+            src: url('PizzaHutCYR.ttf') format('truetype'); /* Для TTF */
+            /* Или для других форматов: */
+            /* src: url('font-name.otf') format('opentype'); */ /* OTF */
+            /* src: url('font-name.woff2') format('woff2'), */ /* WOFF2 */
+            /*      url('font-name.woff') format('woff'); */   /* WOFF */
+            font-weight: normal; /* Обычное начертание */
+            font-style: normal;
+        }
         * {
             margin: 0;
             padding: 0;
@@ -16,15 +26,13 @@
         }
         
         :root {
-            --slide-height: 80vh; /* Уменьшили высоту карточки на 20% */
+            --slide-height: 100vh;
             --slide-radius: 30px;
-            --peek-height: 30px;
-            --slide-margin-top: 5vh; /* Отступ сверху */
-            --slide-margin-bottom: 5vh; /* Отступ снизу */
+            --peek-height: 40px;
         }
         
         body {
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'MyCustomFont','Montserrat', sans-serif;
             background: #000;
             color: white;
             overflow: hidden;
@@ -33,7 +41,7 @@
             position: fixed;
             top: 0;
             left: 0;
-            touch-action: none;
+            touch-action: none; /* Полностью отключаем стандартные жесты */
         }
         
         /* Контейнер для всех слайдов - вертикальная колонка */
@@ -46,10 +54,10 @@
             will-change: transform;
         }
         
-        /* Каждый слайд - меньше экрана */
+        /* Каждый слайд - ровно по высоте экрана */
         .story-slide {
             width: 100vw;
-            height: calc(var(--slide-height) + var(--slide-margin-top) + var(--slide-margin-bottom));
+            height: var(--slide-height);
             position: relative;
             overflow: hidden;
         }
@@ -57,22 +65,22 @@
         /* Визуальный контейнер с закруглениями */
         .slide-visual {
             position: absolute;
-            top: var(--slide-margin-top);
-            bottom: var(--slide-margin-bottom);
-            left: 15px;
-            right: 15px;
+            top: 10px;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
             border-radius: var(--slide-radius);
             overflow: hidden;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
         }
         
         /* Peek-эффект - торчащий следующий слайд */
         .story-slide:not(:last-child)::after {
             content: '';
             position: absolute;
-            bottom: calc(var(--slide-margin-bottom) - var(--peek-height));
-            left: 15px;
-            right: 15px;
+            bottom: -10px;
+            left: 10px;
+            right: 10px;
             height: var(--peek-height);
             background: inherit;
             border-radius: 0 0 var(--slide-radius) var(--slide-radius);
@@ -88,7 +96,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 20px 15px;
+            padding: 20px;
             text-align: center;
             position: relative;
             z-index: 1;
@@ -96,7 +104,7 @@
         
         /* Стили для контента */
         .story-emoji {
-            font-size: 4rem;
+            font-size: 4.5rem;
             margin-bottom: 20px;
             display: block;
             animation: float 3s ease-in-out infinite;
@@ -104,7 +112,7 @@
         
         .story-title {
             font-family: 'Caveat', cursive;
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             margin-bottom: 20px;
             line-height: 1.2;
             font-weight: 700;
@@ -112,7 +120,7 @@
         }
         
         .story-text {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             line-height: 1.6;
             margin-bottom: 20px;
             max-width: 90%;
@@ -120,7 +128,7 @@
         }
         
         .story-stat-number {
-            font-size: 4.5rem;
+            font-size: 5rem;
             font-weight: 900;
             line-height: 1;
             margin-bottom: 15px;
@@ -128,7 +136,7 @@
         }
         
         .story-stat-label {
-            font-size: 1.6rem;
+            font-size: 1.7rem;
             line-height: 1.4;
             opacity: 0.95;
             max-width: 90%;
@@ -148,13 +156,13 @@
         
         .message-author {
             font-weight: 700;
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             margin-bottom: 15px;
             color: #ffcc00;
         }
         
         .message-text {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             line-height: 1.5;
             margin-bottom: 15px;
         }
@@ -216,12 +224,12 @@
         }
         
         .swipe-arrow {
-            font-size: 1.8rem;
+            font-size: 2rem;
             color: rgba(255, 255, 255, 0.7);
             animation: bounce 2s infinite;
             background: rgba(0,0,0,0.3);
-            width: 55px;
-            height: 55px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             display: inline-flex;
             align-items: center;
@@ -239,73 +247,60 @@
         /* Мобильная адаптация */
         @media (max-width: 768px) {
             :root {
-                --slide-height: 75vh; /* Ещё меньше на мобильных */
                 --slide-radius: 25px;
-                --peek-height: 25px;
-                --slide-margin-top: 8vh;
-                --slide-margin-bottom: 8vh;
+                --peek-height: 35px;
             }
             
             .slide-visual {
-                left: 10px;
-                right: 10px;
+                left: 8px;
+                right: 8px;
+                top: 8px;
+                bottom: 8px;
             }
             
             .story-slide:not(:last-child)::after {
-                left: 10px;
-                right: 10px;
+                left: 8px;
+                right: 8px;
+                bottom: -8px;
             }
             
-            .story-title { font-size: 2.2rem; }
+            .story-title { font-size: 2.5rem; }
             .story-text { font-size: 1.4rem; }
-            .story-stat-number { font-size: 4rem; }
+            .story-stat-number { font-size: 4.5rem; }
             .story-stat-label { font-size: 1.5rem; }
-            .story-emoji { font-size: 3.5rem; }
+            .story-emoji { font-size: 4rem; }
             .message-text { font-size: 1.3rem; }
         }
         
         @media (max-width: 480px) {
             :root {
-                --slide-height: 70vh; /* Минимальная высота на маленьких экранах */
                 --slide-radius: 20px;
-                --peek-height: 20px;
-                --slide-margin-top: 10vh;
-                --slide-margin-bottom: 10vh;
+                --peek-height: 30px;
             }
             
             .slide-visual {
-                left: 8px;
-                right: 8px;
+                left: 6px;
+                right: 6px;
+                top: 6px;
+                bottom: 6px;
             }
             
             .story-slide:not(:last-child)::after {
-                left: 8px;
-                right: 8px;
+                left: 6px;
+                right: 6px;
+                bottom: -6px;
             }
             
             .slide-content {
-                padding: 15px 10px;
+                padding: 15px;
             }
             
-            .story-title { font-size: 2rem; }
+            .story-title { font-size: 2.2rem; }
             .story-text { font-size: 1.3rem; }
-            .story-stat-number { font-size: 3.5rem; }
+            .story-stat-number { font-size: 4rem; }
             .story-stat-label { font-size: 1.4rem; }
-            .story-emoji { font-size: 3rem; }
+            .story-emoji { font-size: 3.5rem; }
             .message-text { font-size: 1.2rem; }
-        }
-        
-        @media (max-height: 700px) {
-            /* На устройствах с маленькой высотой экрана */
-            :root {
-                --slide-height: 65vh;
-                --slide-margin-top: 5vh;
-                --slide-margin-bottom: 5vh;
-            }
-            
-            .story-title { font-size: 2rem; }
-            .story-text { font-size: 1.2rem; }
-            .story-stat-number { font-size: 3.5rem; }
         }
         
         /* Эффект при активном свайпе */
@@ -317,19 +312,6 @@
         .slide-content {
             overflow: hidden;
             max-height: 100%;
-        }
-        
-        /* Специальный класс для iPhone с вырезом */
-        @supports (padding: max(0px)) {
-            .slide-visual {
-                left: max(15px, env(safe-area-inset-left));
-                right: max(15px, env(safe-area-inset-right));
-            }
-            
-            .story-slide:not(:last-child)::after {
-                left: max(15px, env(safe-area-inset-left));
-                right: max(15px, env(safe-area-inset-right));
-            }
         }
     </style>
 </head>
@@ -487,16 +469,11 @@
         let currentY = 0;
         let isSwiping = false;
         let containerOffset = 0;
+        let slideHeight = window.innerHeight; // Высота одного слайда = высоте экрана
         
-        // Высота одного слайда = высота визуальной части + отступы
-        let slideHeight = window.innerHeight * 0.8 + window.innerHeight * 0.1 + window.innerHeight * 0.1; // 80% + 10% сверху + 10% снизу
-
         // ========== ИНИЦИАЛИЗАЦИЯ ==========
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('📱 Карточки меньше экрана на 20% загружены!');
-            
-            // Пересчитываем высоту слайда
-            updateSlideHeight();
+            console.log('📱 Фиксированный свайп по высоте слайда загружен!');
             
             // Создаем слайды
             createSlides();
@@ -517,18 +494,9 @@
             
             // Устанавливаем начальную позицию
             updateContainerPosition();
-            
-            console.log('📏 Высота слайда:', slideHeight, 'px');
-            console.log('📏 Высота экрана:', window.innerHeight, 'px');
         });
 
         // ========== ФУНКЦИИ ==========
-        function updateSlideHeight() {
-            const vh = window.innerHeight;
-            // Высота = 80% экрана + отступы сверху и снизу (по 10%)
-            slideHeight = vh * 0.8 + vh * 0.1 + vh * 0.1;
-        }
-
         function createSlides() {
             container.innerHTML = '';
             
@@ -608,7 +576,7 @@
                 container.appendChild(slide);
             });
             
-            console.log(`✅ Создано ${totalSlides} слайдов`);
+            console.log(`✅ Создано ${totalSlides} слайдов, высота каждого: ${slideHeight}px`);
         }
 
         function setupEvents() {
@@ -735,9 +703,8 @@
 
         function handleResize() {
             // Обновляем высоту слайда при ресайзе
-            updateSlideHeight();
+            slideHeight = window.innerHeight;
             updateContainerPosition();
-            console.log('📏 Пересчитана высота слайда:', slideHeight, 'px');
         }
 
         function getContainerOffset() {
@@ -809,7 +776,9 @@
             slideHeight: () => slideHeight
         };
         
-        console.log('✅ Приложение готово! Карточки меньше экрана на 20%');
+        console.log('✅ Приложение готово!');
+        console.log('📏 Высота слайда = высоте экрана:', slideHeight, 'px');
+        console.log('📏 Один свайп перемещает ровно на', slideHeight, 'px');
     </script>
 </body>
 </html>
