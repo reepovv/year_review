@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Наш 2024 год в сторис ❤️</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #000;
+            color: white;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            touch-action: pan-y;
+        }
+        
+        /* Кнопка старта */
+        .start-btn {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(45deg, #ff6b8b, #6a5af9);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            border-radius: 50px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 10px 30px rgba(255, 107, 139, 0.4);
+            transition: all 0.3s ease;
+            z-index: 100;
+            font-family: 'Caveat', cursive;
+        }
+        
+        .start-btn:hover {
+            transform: translate(-50%, -50%) scale(1.05);
+        }
+        
+        /* Контейнер сторис */
+        .story-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 999;
+            color: white;
+        }
+        
+        .story-container.active {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Прогресс-бар */
+        .story-progress {
+            display: flex;
+            gap: 4px;
+            padding: 10px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        
+        .progress-bar {
+            flex: 1;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: white;
+            transition: width 0.1s linear;
+        }
+        
+        /* Шапка */
+        .story-header {
+            display: flex;
+            align-items: center;
+            padding: 60px 15px 15px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .story-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+        }
+        
+        .story-username {
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .story-timer {
+            margin-left: auto;
+            font-size: 14px;
+            opacity: 0.8;
+            background: rgba(0,0,0,0.5);
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+        
+        /* Контент */
+        .story-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            text-align: center;
+            overflow: hidden;
+        }
+        
+        .story-slide {
+            display: none;
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        .story-slide.active {
+            display: block;
+        }
+        
+        .story-emoji {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+            display: block;
+        }
+        
+        .story-title {
+            font-family: 'Caveat', cursive;
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+            line-height: 1.2;
+        }
+        
+        .story-text {
+            font-size: 1.8rem;
+            line-height: 1.5;
+            margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 10px;
+        }
+        
+        .story-stat-number {
+            font-size: 6rem;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 20px;
+            display: block;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .story-stat-label {
+            font-size: 1.8rem;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+        
+        /* Навигация */
+        .story-nav {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 50%;
+            cursor: pointer;
+            z-index: 5;
+        }
+        
+        .story-nav.prev { left: 0; }
+        .story-nav.next { right: 0; }
+        
+        /* Контролы */
+        .story-controls {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            z-index: 1000;
+        }
+        
+        .story-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .story-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+        
+        .tap-hint {
+            position: absolute;
+            bottom: 100px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 1rem;
+            opacity: 0.7;
+            animation: fadeInOut 2s infinite;
+            padding: 0 20px;
+        }
+        
+        .message-bubble {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 25px;
+            margin: 20px auto;
+            max-width: 500px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .message-author {
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #ffcc00;
+        }
+        
+        .message-text {
+            font-size: 1.6rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        
+        .message-date {
+            font-size: 1rem;
+            opacity: 0.8;
+            text-align: right;
+        }
+        
+        /* Анимации */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes slideIn {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.7; }
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Мобильная адаптация */
+        @media (max-width: 768px) {
+            .story-title { font-size: 2.8rem; }
+            .story-text { font-size: 1.5rem; }
+            .story-stat-number { font-size: 4.5rem; }
+            .story-stat-label { font-size: 1.5rem; }
+            .story-emoji { font-size: 4rem; }
+            .message-text { font-size: 1.4rem; }
+        }
+        
+        @media (max-width: 480px) {
+            .story-title { font-size: 2.3rem; }
+            .story-text { font-size: 1.3rem; }
+            .story-stat-number { font-size: 3.5rem; }
+            .story-stat-label { font-size: 1.3rem; }
+            .story-emoji { font-size: 3.5rem; }
+            .message-text { font-size: 1.2rem; }
+            .start-btn { font-size: 1.3rem; padding: 15px 30px; }
+        }
+        
+        /* Эффект градиента для текста */
+        .gradient-text {
+            background: linear-gradient(45deg, #ff6b8b, #ffa500, #ffcc00, #6a5af9);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 5s ease infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Кнопка запуска -->
+    <button class="start-btn" id="startStories">
+        <i class="fab fa-instagram"></i>
+        Наш 2024 год в сторис
+    </button>
+
+    <!-- Контейнер сторис -->
+    <div class="story-container" id="storyContainer">
+        <div class="story-progress" id="storyProgress"></div>
+        
+        <div class="story-header">
+            <div class="story-avatar">
+                <i class="fas fa-heart"></i>
+            </div>
+            <div class="story-username" id="storyUsername">Наш 2024 год</div>
+            <div class="story-timer" id="storyTimer">10 сек</div>
+            <button class="story-btn close-btn" id="closeStory" style="position: absolute; right: 15px;">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="story-content" id="storyContent">
+            <!-- Слайды добавятся через JS -->
+        </div>
+        
+        <div class="story-nav prev" id="prevStory"></div>
+        <div class="story-nav next" id="nextStory"></div>
+        
+        <div class="tap-hint">Нажмите для перехода • 10 секунд до автосмены</div>
+        
+        <div class="story-controls">
+            <button class="story-btn" id="pauseStory">
+                <i class="fas fa-pause"></i>
+            </button>
+            <button class="story-btn" id="replayStory">
+                <i class="fas fa-redo"></i>
+            </button>
+            <button class="story-btn" id="closeStories">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ========== ДАННЫЕ ДЛЯ СТОРИС ==========
+        const storiesData = {
+            year: 2024,
+            partnerName: "Аня",
+            
+            stories: [
+                {
+                    type: "intro",
+                    emoji: "❤️",
+                    title: "Наш 2024 год",
+                    text: "Каждое сообщение — это маленькая история нашей любви. Давай вспомним самые важные моменты!",
+                    duration: 8,
+                    background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+                },
+                {
+                    type: "stat",
+                    emoji: "💬",
+                    title: "Цифра года",
+                    value: "12,478",
+                    label: "сообщений мы написали друг другу за этот год",
+                    duration: 10,
+                    background: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)"
+                },
+                {
+                    type: "stat",
+                    emoji: "📅",
+                    title: "Каждый день",
+                    value: "34",
+                    label: "сообщения в среднем мы отправляли каждый день",
+                    duration: 8,
+                    background: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)"
+                },
+                {
+                    type: "stat",
+                    emoji: "👫",
+                    title: "Баланс",
+                    value: "50/50",
+                    label: "Ты отправила 6,136 сообщений, я — 6,342. Почти идеальный баланс!",
+                    duration: 12,
+                    background: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)"
+                },
+                {
+                    type: "stat",
+                    emoji: "🔥",
+                    title: "Рекордный месяц",
+                    value: "Март",
+                    label: "Именно в марте мы общались больше всего",
+                    duration: 8,
+                    background: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)"
+                },
+                {
+                    type: "moment",
+                    emoji: "🍝",
+                    title: "14 февраля",
+                    text: "Наш первый ужин вместе! Помнишь твою пасту? Она была немного пересолена, но это был самый вкусный ужин в моей жизни ❤️",
+                    duration: 15,
+                    background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+                },
+                {
+                    type: "stat",
+                    emoji: "🗣️",
+                    title: "Наши любимые слова",
+                    text: "«Любовь» — 324 раза<br>«Скучаю» — 287 раз<br>«Котик» — 256 раз<br>«Обнимаю» — 176 раз<br>«Красивая» — 132 раза",
+                    duration: 12,
+                    background: "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)"
+                },
+                {
+                    type: "message",
+                    emoji: "💌",
+                    title: "Сообщение дня",
+                    author: "Аня",
+                    date: "12 мая, 23:42",
+                    text: "Ты лучшее, что случилось со мной в этом году. Иногда перечитываю наши первые сообщения и улыбаюсь как дурочка 😊",
+                    duration: 15,
+                    background: "linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)"
+                },
+                {
+                    type: "stat",
+                    emoji: "📸",
+                    title: "Медиа",
+                    value: "876 фото",
+                    label: "и 245 голосовых сообщений мы обменялись",
+                    duration: 10,
+                    background: "linear-gradient(135deg, #a9c9ff 0%, #ffbbec 100%)"
+                },
+                {
+                    type: "moment",
+                    emoji: "🐱",
+                    title: "3 октября",
+                    text: "День, когда мы решили завести котика! Помнишь, как долго выбирали имя? Нашему Мурзику уже 2 месяца 🥰",
+                    duration: 12,
+                    background: "linear-gradient(135deg, #d299c2 0%, #fef9d7 100%)"
+                },
+                {
+                    type: "message",
+                    emoji: "✨",
+                    title: "Ещё одно",
+                    author: "Ты",
+                    date: "7 сентября, 00:03",
+                    text: "Только что осознал, что думаю о тебе каждую свободную минуту. Это и безумие, и самое прекрасное чувство одновременно.",
+                    duration: 15,
+                    background: "linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%)"
+                },
+                {
+                    type: "stat",
+                    emoji: "😊",
+                    title: "Эмоции",
+                    value: "1,543",
+                    label: "стикера с улыбками и сердечками мы отправили",
+                    duration: 10,
+                    background: "linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%)"
+                },
+                {
+                    type: "moment",
+                    emoji: "🎂",
+                    title: "12 ноября",
+                    text: "Твой день рождения! Я так волновался, готовя сюрприз. Твои глаза, когда ты увидела торт — это бесценно. Спасибо за эту улыбку!",
+                    duration: 15,
+                    background: "linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%)"
+                },
+                {
+                    type: "stat",
+                    emoji: "⏰",
+                    title: "Самая долгая беседа",
+                    value: "8 часов",
+                    label: "42 минуты — столько длился наш самый долгий разговор",
+                    duration: 10,
+                    background: "linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%)"
+                },
+                {
+                    type: "outro",
+                    emoji: "🌟",
+                    title: "Спасибо тебе!",
+                    text: "За каждый смех, за каждое «доброе утро», за каждую минуту этого невероятного года. Я люблю тебя больше, чем все эти цифры могут показать. ❤️",
+                    duration: 15,
+                    background: "linear-gradient(135deg, #ff6b8b 0%, #6a5af9 100%)"
+                }
+            ]
+        };
+
+        // ========== ПЕРЕМЕННЫЕ ==========
+        let currentStoryIndex = 0;
+        let totalStories = storiesData.stories.length;
+        let storyInterval = null;
+        let storyPaused = false;
+        let progressIntervals = [];
+        let storyDuration = 10000;
+
+        // ========== DOM ЭЛЕМЕНТЫ ==========
+        const startBtn = document.getElementById('startStories');
+        const storyContainer = document.getElementById('storyContainer');
+        const storyProgress = document.getElementById('storyProgress');
+        const storyContent = document.getElementById('storyContent');
+        const prevStoryBtn = document.getElementById('prevStory');
+        const nextStoryBtn = document.getElementById('nextStory');
+        const closeStoryBtn = document.getElementById('closeStory');
+        const pauseStoryBtn = document.getElementById('pauseStory');
+        const replayStoryBtn = document.getElementById('replayStory');
+        const closeStoriesBtn = document.getElementById('closeStories');
+        const storyTimer = document.getElementById('storyTimer');
+        const storyUsername = document.getElementById('storyUsername');
+
+        // ========== ИНИЦИАЛИЗАЦИЯ ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('📱 Instagram Stories загружены! Всего слайдов:', storiesData.stories.length);
+            storyUsername.textContent = `${storiesData.partnerName} ❤️`;
+            createProgressBars();
+            createStorySlides();
+            setupEventListeners();
+        });
+
+        // ========== ОСНОВНЫЕ ФУНКЦИИ ==========
+        function createProgressBars() {
+            storyProgress.innerHTML = '';
+            for (let i = 0; i < totalStories; i++) {
+                const progressBar = document.createElement('div');
+                progressBar.className = 'progress-bar';
+                progressBar.innerHTML = `<div class="progress-fill" id="progress-${i}"></div>`;
+                storyProgress.appendChild(progressBar);
+            }
+        }
+
+        function createStorySlides() {
+            storyContent.innerHTML = '';
+            
+            storiesData.stories.forEach((story, index) => {
+                const slide = document.createElement('div');
+                slide.className = 'story-slide';
+                slide.id = `story-${index}`;
+                
+                let contentHTML = '';
+                
+                switch (story.type) {
+                    case 'intro':
+                    case 'outro':
+                    case 'moment':
+                        contentHTML = `
+                            <div class="story-emoji gradient-text">${story.emoji}</div>
+                            <h1 class="story-title gradient-text">${story.title}</h1>
+                            <p class="story-text">${story.text}</p>
+                        `;
+                        break;
+                        
+                    case 'stat':
+                        if (story.text) {
+                            // Статистика в виде текста
+                            contentHTML = `
+                                <div class="story-emoji gradient-text">${story.emoji}</div>
+                                <h1 class="story-title gradient-text">${story.title}</h1>
+                                <p class="story-text">${story.text}</p>
+                            `;
+                        } else {
+                            // Статистика с большими цифрами
+                            contentHTML = `
+                                <div class="story-emoji gradient-text">${story.emoji}</div>
+                                <h1 class="story-title gradient-text">${story.title}</h1>
+                                <span class="story-stat-number gradient-text">${story.value}</span>
+                                <p class="story-stat-label">${story.label}</p>
+                            `;
+                        }
+                        break;
+                        
+                    case 'message':
+                        contentHTML = `
+                            <div class="story-emoji gradient-text">${story.emoji}</div>
+                            <h1 class="story-title gradient-text">${story.title}</h1>
+                            <div class="message-bubble">
+                                <div class="message-author">${story.author}</div>
+                                <div class="message-text">${story.text}</div>
+                                <div class="message-date">${story.date}</div>
+                            </div>
+                        `;
+                        break;
+                }
+                
+                slide.innerHTML = contentHTML;
+                storyContent.appendChild(slide);
+            });
+            
+            console.log('✅ Создано слайдов:', document.querySelectorAll('.story-slide').length);
+        }
+
+        function setupEventListeners() {
+            startBtn.addEventListener('click', startStories);
+            prevStoryBtn.addEventListener('click', () => navigateStory(-1));
+            nextStoryBtn.addEventListener('click', () => navigateStory(1));
+            closeStoryBtn.addEventListener('click', closeStories);
+            closeStoriesBtn.addEventListener('click', closeStories);
+            pauseStoryBtn.addEventListener('click', togglePause);
+            replayStoryBtn.addEventListener('click', replayCurrentStory);
+            
+            // Клики по экрану для навигации
+            storyContent.addEventListener('click', (e) => {
+                if (e.clientX < window.innerWidth / 2) {
+                    navigateStory(-1); // Левая половина - назад
+                } else {
+                    navigateStory(1); // Правая половина - вперед
+                }
+            });
+            
+            // Клавиши клавиатуры
+            document.addEventListener('keydown', (e) => {
+                if (!storyContainer.classList.contains('active')) return;
+                
+                switch(e.key) {
+                    case 'ArrowLeft':
+                    case 'a':
+                        navigateStory(-1);
+                        break;
+                    case 'ArrowRight':
+                    case 'd':
+                    case ' ':
+                        navigateStory(1);
+                        break;
+                    case 'Escape':
+                        closeStories();
+                        break;
+                    case 'p':
+                        togglePause();
+                        break;
+                    case 'r':
+                        replayCurrentStory();
+                        break;
+                }
+            });
+            
+            // Свайпы для мобильных
+            setupSwipeGestures();
+            
+            console.log('✅ Обработчики событий установлены');
+        }
+
+        function startStories() {
+            console.log('🚀 Запуск сторис');
+            startBtn.style.display = 'none';
+            storyContainer.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            showStory(0);
+        }
+
+        function showStory(index) {
+            // Проверяем границы
+            if (index < 0) index = 0;
+            if (index >= totalStories) {
+                closeStories();
+                return;
+            }
+            
+            console.log(`📊 Показываем сторис ${index + 1}/${totalStories}`);
+            
+            // Скрываем все слайды
+            document.querySelectorAll('.story-slide').forEach(slide => {
+                slide.classList.remove('active');
+            });
+            
+            // Показываем текущий слайд
+            const currentSlide = document.getElementById(`story-${index}`);
+            if (currentSlide) {
+                currentSlide.classList.add('active');
+            }
+            
+            // Устанавливаем фон
+            const currentStory = storiesData.stories[index];
+            storyContainer.style.background = currentStory.background;
+            
+            // Обновляем переменные
+            currentStoryIndex = index;
+            storyDuration = (currentStory.duration || 10) * 1000;
+            
+            // Обновляем таймер
+            storyTimer.textContent = `${currentStory.duration || 10} сек`;
+            
+            // Сбрасываем прогресс
+            resetProgressBars();
+            
+            // Запускаем прогресс текущего слайда
+            startProgressBar(index);
+            
+            // Запускаем таймер автосмены
+            startStoryTimer();
+        }
+
+        function startProgressBar(index) {
+            // Очищаем предыдущие интервалы
+            progressIntervals.forEach(interval => clearInterval(interval));
+            progressIntervals = [];
+            
+            const progressFill = document.getElementById(`progress-${index}`);
+            if (progressFill) {
+                progressFill.classList.add('active');
+                progressFill.style.width = '0%';
+                
+                const interval = setInterval(() => {
+                    if (!storyPaused) {
+                        const currentWidth = parseFloat(progressFill.style.width) || 0;
+                        const increment = 100 / (storyDuration / 100);
+                        
+                        if (currentWidth < 100) {
+                            progressFill.style.width = `${currentWidth + increment}%`;
+                        }
+                    }
+                }, 100);
+                
+                progressIntervals.push(interval);
+            }
+        }
+
+        function resetProgressBars() {
+            document.querySelectorAll('.progress-fill').forEach(progress => {
+                progress.style.width = '0%';
+                progress.classList.remove('active');
+            });
+        }
+
+        function startStoryTimer() {
+            if (storyInterval) clearTimeout(storyInterval);
+            
+            storyInterval = setTimeout(() => {
+                if (!storyPaused) {
+                    navigateStory(1);
+                }
+            }, storyDuration);
+        }
+
+        function navigateStory(direction) {
+            const newIndex = currentStoryIndex + direction;
+            showStory(newIndex);
+        }
+
+        function togglePause() {
+            storyPaused = !storyPaused;
+            
+            if (storyPaused) {
+                pauseStoryBtn.innerHTML = '<i class="fas fa-play"></i>';
+                if (storyInterval) {
+                    clearTimeout(storyInterval);
+                }
+            } else {
+                pauseStoryBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                startStoryTimer();
+            }
+        }
+
+        function replayCurrentStory() {
+            showStory(currentStoryIndex);
+        }
+
+        function closeStories() {
+            storyContainer.classList.remove('active');
+            startBtn.style.display = 'flex';
+            document.body.style.overflow = 'auto';
+            
+            // Останавливаем таймеры
+            if (storyInterval) clearTimeout(storyInterval);
+            progressIntervals.forEach(interval => clearInterval(interval));
+            
+            // Сбрасываем состояние
+            currentStoryIndex = 0;
+            storyPaused = false;
+            
+            console.log('⏹️ Сторис завершены');
+        }
+
+        function setupSwipeGestures() {
+            let startX = 0;
+            let startY = 0;
+            
+            storyContainer.addEventListener('touchstart', (e) => {
+                startX = e.changedTouches[0].screenX;
+                startY = e.changedTouches[0].screenY;
+            });
+            
+            storyContainer.addEventListener('touchend', (e) => {
+                const endX = e.changedTouches[0].screenX;
+                const endY = e.changedTouches[0].screenY;
+                const diffX = endX - startX;
+                const diffY = endY - startY;
+                
+                // Проверяем, что это был горизонтальный свайп (не вертикальный)
+                if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                    if (diffX > 0) {
+                        navigateStory(-1); // Свайп вправо - назад
+                    } else {
+                        navigateStory(1); // Свайп влево - вперед
+                    }
+                }
+            });
+        }
+
+        // ========== ТЕСТОВЫЕ ФУНКЦИИ ==========
+        window.testStories = function() {
+            console.log('=== ТЕСТ СТОРИС ===');
+            console.log('Всего слайдов:', totalStories);
+            console.log('Текущий слайд:', currentStoryIndex);
+            console.log('Данные текущего слайда:', storiesData.stories[currentStoryIndex]);
+            console.log('Элементы DOM:');
+            console.log('- Кнопка старта:', startBtn ? 'найдена' : 'не найдена');
+            console.log('- Контейнер сторис:', storyContainer ? 'найден' : 'не найден');
+            console.log('- Слайды:', document.querySelectorAll('.story-slide').length);
+        };
+
+        // Автозапуск для тестирования (раскомментируйте если нужно)
+        // setTimeout(() => {
+        //     startStories();
+        // }, 1000);
+    </script>
+</body>
+</html>
