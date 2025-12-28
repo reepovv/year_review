@@ -17,9 +17,8 @@
         
         :root {
             --slide-height: 100vh;
-            --slide-margin: 10px;
             --slide-radius: 30px;
-            --peek-height: 50px;
+            --peek-height: 40px;
         }
         
         body {
@@ -29,26 +28,26 @@
             overflow: hidden;
             height: 100vh;
             width: 100vw;
-            position: relative;
-            touch-action: none; /* Отключаем все стандартные жесты */
+            position: fixed;
+            top: 0;
+            left: 0;
+            touch-action: none; /* Полностью отключаем стандартные жесты */
         }
         
         /* Контейнер для всех слайдов - вертикальная колонка */
         .slides-container {
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
             width: 100vw;
-            height: 100vh;
-            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             will-change: transform;
         }
         
-        /* Каждый слайд */
+        /* Каждый слайд - ровно по высоте экрана */
         .story-slide {
             width: 100vw;
-            height: calc(var(--slide-height) - var(--slide-margin) * 2);
-            margin: var(--slide-margin) 0;
+            height: var(--slide-height);
             position: relative;
             overflow: hidden;
         }
@@ -56,10 +55,10 @@
         /* Визуальный контейнер с закруглениями */
         .slide-visual {
             position: absolute;
-            top: 0;
+            top: 10px;
+            bottom: 10px;
             left: 10px;
             right: 10px;
-            height: 100%;
             border-radius: var(--slide-radius);
             overflow: hidden;
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
@@ -69,7 +68,7 @@
         .story-slide:not(:last-child)::after {
             content: '';
             position: absolute;
-            bottom: calc(-1 * var(--peek-height) - var(--slide-margin));
+            bottom: -10px;
             left: 10px;
             right: 10px;
             height: var(--peek-height);
@@ -87,7 +86,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 40px 20px;
+            padding: 20px;
             text-align: center;
             position: relative;
             z-index: 1;
@@ -95,39 +94,39 @@
         
         /* Стили для контента */
         .story-emoji {
-            font-size: 5rem;
-            margin-bottom: 25px;
+            font-size: 4.5rem;
+            margin-bottom: 20px;
             display: block;
             animation: float 3s ease-in-out infinite;
         }
         
         .story-title {
             font-family: 'Caveat', cursive;
-            font-size: 3.2rem;
-            margin-bottom: 25px;
+            font-size: 2.8rem;
+            margin-bottom: 20px;
             line-height: 1.2;
             font-weight: 700;
             max-width: 90%;
         }
         
         .story-text {
-            font-size: 1.7rem;
+            font-size: 1.6rem;
             line-height: 1.6;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             max-width: 90%;
             padding: 0 10px;
         }
         
         .story-stat-number {
-            font-size: 6rem;
+            font-size: 5rem;
             font-weight: 900;
             line-height: 1;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             display: block;
         }
         
         .story-stat-label {
-            font-size: 1.8rem;
+            font-size: 1.7rem;
             line-height: 1.4;
             opacity: 0.95;
             max-width: 90%;
@@ -138,8 +137,8 @@
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(20px);
             border-radius: 25px;
-            padding: 30px;
-            margin: 25px 0;
+            padding: 25px;
+            margin: 20px 0;
             width: 90%;
             max-width: 500px;
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -147,19 +146,19 @@
         
         .message-author {
             font-weight: 700;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             margin-bottom: 15px;
             color: #ffcc00;
         }
         
         .message-text {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             line-height: 1.5;
             margin-bottom: 15px;
         }
         
         .message-date {
-            font-size: 1.1rem;
+            font-size: 1rem;
             opacity: 0.8;
             text-align: right;
         }
@@ -167,13 +166,13 @@
         /* Индикатор текущего слайда */
         .slide-indicator {
             position: fixed;
-            bottom: 25px;
-            right: 25px;
+            bottom: 20px;
+            right: 20px;
             background: rgba(0,0,0,0.5);
             color: white;
-            padding: 10px 18px;
-            border-radius: 25px;
-            font-size: 1.1rem;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 1rem;
             z-index: 1000;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.1);
@@ -211,15 +210,16 @@
             text-align: center;
             z-index: 1000;
             pointer-events: none;
+            transition: opacity 0.3s;
         }
         
         .swipe-arrow {
-            font-size: 2.5rem;
+            font-size: 2rem;
             color: rgba(255, 255, 255, 0.7);
             animation: bounce 2s infinite;
             background: rgba(0,0,0,0.3);
-            width: 70px;
-            height: 70px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             display: inline-flex;
             align-items: center;
@@ -230,78 +230,78 @@
         
         @keyframes bounce {
             0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
+            40% { transform: translateY(-8px); }
+            60% { transform: translateY(-4px); }
         }
         
         /* Мобильная адаптация */
         @media (max-width: 768px) {
             :root {
                 --slide-radius: 25px;
-                --peek-height: 40px;
+                --peek-height: 35px;
             }
             
             .slide-visual {
                 left: 8px;
                 right: 8px;
+                top: 8px;
+                bottom: 8px;
             }
             
             .story-slide:not(:last-child)::after {
                 left: 8px;
                 right: 8px;
+                bottom: -8px;
             }
             
-            .story-title { font-size: 2.8rem; }
-            .story-text { font-size: 1.5rem; }
-            .story-stat-number { font-size: 5rem; }
-            .story-stat-label { font-size: 1.6rem; }
+            .story-title { font-size: 2.5rem; }
+            .story-text { font-size: 1.4rem; }
+            .story-stat-number { font-size: 4.5rem; }
+            .story-stat-label { font-size: 1.5rem; }
             .story-emoji { font-size: 4rem; }
-            .message-text { font-size: 1.4rem; }
-            .swipe-arrow {
-                width: 60px;
-                height: 60px;
-                font-size: 2rem;
-            }
+            .message-text { font-size: 1.3rem; }
         }
         
         @media (max-width: 480px) {
             :root {
                 --slide-radius: 20px;
-                --peek-height: 35px;
-                --slide-margin: 8px;
+                --peek-height: 30px;
             }
             
             .slide-visual {
                 left: 6px;
                 right: 6px;
+                top: 6px;
+                bottom: 6px;
             }
             
             .story-slide:not(:last-child)::after {
                 left: 6px;
                 right: 6px;
+                bottom: -6px;
             }
             
             .slide-content {
-                padding: 30px 15px;
+                padding: 15px;
             }
             
-            .story-title { font-size: 2.4rem; }
+            .story-title { font-size: 2.2rem; }
             .story-text { font-size: 1.3rem; }
             .story-stat-number { font-size: 4rem; }
             .story-stat-label { font-size: 1.4rem; }
             .story-emoji { font-size: 3.5rem; }
             .message-text { font-size: 1.2rem; }
-            .slide-indicator {
-                bottom: 20px;
-                right: 20px;
-                font-size: 1rem;
-                padding: 8px 15px;
-            }
         }
         
         /* Эффект при активном свайпе */
         .swiping {
-            transition: transform 0.1s linear;
+            transition: transform 0.1s linear !important;
+        }
+        
+        /* Гарантируем, что контент не выходит за пределы */
+        .slide-content {
+            overflow: hidden;
+            max-height: 100%;
         }
     </style>
 </head>
@@ -454,19 +454,16 @@
         const slideIndicator = document.getElementById('slideIndicator');
         const swipeIndicator = document.getElementById('swipeIndicator');
         
-        // Переменные для управления свайпом
+        // Основные переменные
         let startY = 0;
         let currentY = 0;
         let isSwiping = false;
         let containerOffset = 0;
-        const slideHeight = window.innerHeight; // Высота одного слайда
+        let slideHeight = window.innerHeight; // Высота одного слайда = высоте экрана
         
-        // Вычисляем общую высоту контейнера
-        const containerHeight = totalSlides * slideHeight;
-
         // ========== ИНИЦИАЛИЗАЦИЯ ==========
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('📱 Бесконечная колонка с ограниченным свайпом загружена!');
+            console.log('📱 Фиксированный свайп по высоте слайда загружен!');
             
             // Создаем слайды
             createSlides();
@@ -480,12 +477,13 @@
             // Скрываем индикатор свайпа через 5 секунд
             setTimeout(() => {
                 swipeIndicator.style.opacity = '0.5';
+                setTimeout(() => {
+                    swipeIndicator.style.display = 'none';
+                }, 3000);
             }, 5000);
             
-            // Скрываем полностью при прокрутке
-            setTimeout(() => {
-                swipeIndicator.style.display = 'none';
-            }, 10000);
+            // Устанавливаем начальную позицию
+            updateContainerPosition();
         });
 
         // ========== ФУНКЦИИ ==========
@@ -568,7 +566,7 @@
                 container.appendChild(slide);
             });
             
-            console.log(`✅ Создано ${totalSlides} слайдов с peek-эффектом`);
+            console.log(`✅ Создано ${totalSlides} слайдов, высота каждого: ${slideHeight}px`);
         }
 
         function setupEvents() {
@@ -599,7 +597,7 @@
             isSwiping = true;
             containerOffset = getContainerOffset();
             
-            // Добавляем класс для плавного скролла
+            // Добавляем класс для мгновенного отклика
             container.classList.add('swiping');
             
             e.preventDefault();
@@ -611,13 +609,26 @@
             currentY = e.touches[0].clientY;
             const diffY = currentY - startY;
             
-            // Ограничиваем максимальное смещение одним слайдом
-            const maxOffset = slideHeight;
-            const limitedDiff = Math.max(-maxOffset, Math.min(maxOffset, diffY));
+            // Смещаем контейнер ровно на величину свайпа
+            const newOffset = containerOffset + diffY;
             
-            // Применяем смещение с резиновым эффектом
-            const rubberDiff = applyRubberBandEffect(limitedDiff);
-            setContainerOffset(containerOffset + rubberDiff);
+            // Ограничиваем смещение
+            const maxOffset = 0; // Не можем скроллить выше первого слайда
+            const minOffset = -(slideHeight * (totalSlides - 1)); // Не можем скроллить ниже последнего
+            
+            // Применяем резиновый эффект за границами
+            let finalOffset = newOffset;
+            if (newOffset > maxOffset) {
+                // Резиновый эффект сверху
+                const overshoot = newOffset - maxOffset;
+                finalOffset = maxOffset + overshoot * 0.3;
+            } else if (newOffset < minOffset) {
+                // Резиновый эффект снизу
+                const overshoot = newOffset - minOffset;
+                finalOffset = minOffset + overshoot * 0.3;
+            }
+            
+            setContainerOffset(finalOffset);
             
             e.preventDefault();
         }
@@ -627,15 +638,15 @@
             
             const endY = e.changedTouches[0].clientY;
             const diffY = endY - startY;
-            const velocity = Math.abs(diffY) / (Date.now() - startY); // Простая скорость
             
             isSwiping = false;
             container.classList.remove('swiping');
             
-            // Определяем, нужно ли менять слайд
-            const shouldChangeSlide = Math.abs(diffY) > slideHeight * 0.2 || Math.abs(velocity) > 0.5;
+            // Определяем направление и силу свайпа
+            const velocity = diffY / (Date.now() - startY);
+            const isSignificantSwipe = Math.abs(diffY) > 50 || Math.abs(velocity) > 0.3;
             
-            if (shouldChangeSlide) {
+            if (isSignificantSwipe) {
                 if (diffY < 0 && currentSlideIndex < totalSlides - 1) {
                     // Свайп вверх - следующий слайд
                     goToSlide(currentSlideIndex + 1);
@@ -647,20 +658,9 @@
                     goToSlide(currentSlideIndex);
                 }
             } else {
-                // Возвращаем на текущий слайд
+                // Слишком короткий свайп - остаёмся на текущем слайде
                 goToSlide(currentSlideIndex);
             }
-        }
-
-        function applyRubberBandEffect(diff) {
-            // Резиновый эффект при достижении границ
-            const max = slideHeight;
-            if (Math.abs(diff) > max) {
-                return diff > 0 ? 
-                    max + (diff - max) * 0.3 : 
-                    -max + (diff + max) * 0.3;
-            }
-            return diff;
         }
 
         function handleClick(e) {
@@ -694,7 +694,7 @@
         function handleResize() {
             // Обновляем высоту слайда при ресайзе
             slideHeight = window.innerHeight;
-            goToSlide(currentSlideIndex); // Перепозиционируем на текущий слайд
+            updateContainerPosition();
         }
 
         function getContainerOffset() {
@@ -705,12 +705,13 @@
         }
 
         function setContainerOffset(offset) {
-            // Ограничиваем смещение
-            const maxOffset = 0;
-            const minOffset = -(containerHeight - slideHeight);
-            const clampedOffset = Math.max(minOffset, Math.min(maxOffset, offset));
-            
-            container.style.transform = `translateY(${clampedOffset}px)`;
+            container.style.transform = `translateY(${offset}px)`;
+        }
+
+        function updateContainerPosition() {
+            const targetOffset = -(currentSlideIndex * slideHeight);
+            container.style.transform = `translateY(${targetOffset}px)`;
+            container.style.transition = 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
         }
 
         function goToSlide(index) {
@@ -718,12 +719,7 @@
             if (index >= totalSlides) index = totalSlides - 1;
             
             currentSlideIndex = index;
-            
-            // Вычисляем смещение для показа нужного слайда
-            const targetOffset = -(currentSlideIndex * slideHeight);
-            container.style.transform = `translateY(${targetOffset}px)`;
-            container.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-            
+            updateContainerPosition();
             updateSlideIndicator();
             
             // Прячем индикатор свайпа после первого слайда
@@ -766,12 +762,13 @@
             prevSlide: () => goToSlide(currentSlideIndex - 1),
             goToSlide: goToSlide,
             currentSlide: () => currentSlideIndex + 1,
-            totalSlides: totalSlides
+            totalSlides: totalSlides,
+            slideHeight: () => slideHeight
         };
         
-        console.log('✅ Приложение готово! Один свайп = один слайд');
-        console.log('📏 Высота слайда:', slideHeight, 'px');
-        console.log('📏 Общая высота:', containerHeight, 'px');
+        console.log('✅ Приложение готово!');
+        console.log('📏 Высота слайда = высоте экрана:', slideHeight, 'px');
+        console.log('📏 Один свайп перемещает ровно на', slideHeight, 'px');
     </script>
 </body>
 </html>
