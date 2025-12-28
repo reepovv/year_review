@@ -8,13 +8,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         @font-face {
-            font-family: 'MyCustomFont'; /* Придумайте имя для шрифта */
-            src: url('PizzaHutCYR.ttf') format('truetype'); /* Для TTF */
-            /* Или для других форматов: */
-            /* src: url('font-name.otf') format('opentype'); */ /* OTF */
-            /* src: url('font-name.woff2') format('woff2'), */ /* WOFF2 */
-            /*      url('font-name.woff') format('woff'); */   /* WOFF */
-            font-weight: normal; /* Обычное начертание */
+            font-family: 'MyCustomFont';
+            src: url('PizzaHutCYR.ttf') format('truetype');
+            font-weight: normal;
             font-style: normal;
         }
         * {
@@ -26,11 +22,9 @@
         }
         
         :root {
-            --slide-height: 80vh;
+            --slide-height: 100vh; /* ПОЛНЫЙ ЭКРАН */
             --slide-radius: 30px;
-            --peek-height: 30px;
-            --slide-margin-top: 5vh;
-            --slide-margin-bottom: 5vh;
+            --peek-height: 40px;
         }
         
         body {
@@ -56,10 +50,10 @@
             will-change: transform;
         }
         
-        /* Каждый слайд */
+        /* Каждый слайд - ПОЛНЫЙ ЭКРАН */
         .story-slide {
             width: 100vw;
-            height: calc(var(--slide-height) + var(--slide-margin-top) + var(--slide-margin-bottom));
+            height: var(--slide-height);
             position: relative;
             overflow: hidden;
         }
@@ -67,10 +61,10 @@
         /* Визуальный контейнер с закруглениями */
         .slide-visual {
             position: absolute;
-            top: var(--slide-margin-top);
-            bottom: var(--slide-margin-bottom);
-            left: 15px;
-            right: 15px;
+            top: 10px;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
             border-radius: var(--slide-radius);
             overflow: hidden;
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
@@ -83,7 +77,7 @@
             background-repeat: no-repeat !important;
         }
         
-        /* Затемнение для лучшей читаемости текста поверх картинки */
+        /* МЕНЬШЕЕ затемнение для лучшей видимости картинки */
         .slide-visual.first-slide::before {
             content: '';
             position: absolute;
@@ -91,7 +85,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.4); /* Полупрозрачный чёрный оверлей */
+            background: rgba(0, 0, 0, 0.3); /* МЕНЬШАЯ прозрачность: было 0.4, стало 0.3 */
             z-index: 1;
         }
         
@@ -105,9 +99,9 @@
         .story-slide:not(:last-child)::after {
             content: '';
             position: absolute;
-            bottom: calc(var(--slide-margin-bottom) - var(--peek-height));
-            left: 15px;
-            right: 15px;
+            bottom: -10px; /* Изменено для полного экрана */
+            left: 10px;
+            right: 10px;
             height: var(--peek-height);
             background: inherit;
             border-radius: 0 0 var(--slide-radius) var(--slide-radius);
@@ -131,59 +125,59 @@
         
         /* Стили для контента */
         .story-emoji {
-            font-size: 4rem;
-            margin-bottom: 20px;
+            font-size: 4.5rem;
+            margin-bottom: 25px;
             display: block;
             animation: float 3s ease-in-out infinite;
         }
         
         .story-title {
             font-family: 'Caveat', cursive;
-            font-size: 2.8rem;
-            margin-bottom: 20px;
+            font-size: 3.2rem;
+            margin-bottom: 25px;
             line-height: 1.2;
             font-weight: 700;
             max-width: 90%;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Тень для лучшей читаемости */
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); /* Более сильная тень */
         }
         
         .first-slide .story-title {
-            font-size: 3.2rem; /* Немного больше на первом слайде */
+            font-size: 3.5rem;
             margin-bottom: 30px;
         }
         
         .story-text {
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             line-height: 1.6;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             max-width: 90%;
-            padding: 0 10px;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            padding: 0 15px;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7); /* Более сильная тень */
         }
         
         .first-slide .story-text {
-            font-size: 1.8rem; /* Немного больше на первом слайде */
-            background: rgba(0, 0, 0, 0.3); /* Полупрозрачный фон для текста */
-            padding: 15px;
-            border-radius: 15px;
-            backdrop-filter: blur(5px);
+            font-size: 2rem;
+            background: rgba(0, 0, 0, 0.4); /* Убрал блюр, только фон */
+            padding: 20px;
+            border-radius: 20px;
+            /* УБРАЛ: backdrop-filter: blur(5px); */
         }
         
         .story-stat-number {
-            font-size: 4.5rem;
+            font-size: 5rem;
             font-weight: 900;
             line-height: 1;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             display: block;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
         }
         
         .story-stat-label {
-            font-size: 1.7rem;
+            font-size: 1.9rem;
             line-height: 1.4;
             opacity: 0.95;
             max-width: 90%;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
         }
         
         /* Message bubble */
@@ -201,19 +195,19 @@
         
         .message-author {
             font-weight: 700;
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             margin-bottom: 15px;
             color: #ffcc00;
         }
         
         .message-text {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             line-height: 1.5;
             margin-bottom: 15px;
         }
         
         .message-date {
-            font-size: 1rem;
+            font-size: 1.1rem;
             opacity: 0.8;
             text-align: right;
         }
@@ -221,13 +215,13 @@
         /* Индикатор текущего слайда */
         .slide-indicator {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 25px;
+            right: 25px;
             background: rgba(0,0,0,0.5);
             color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 1rem;
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-size: 1.1rem;
             z-index: 1000;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.1);
@@ -244,7 +238,7 @@
             animation: gradientShift 5s ease infinite;
         }
         
-        /* Белый текст для первого слайда (чтобы был виден на картинке) */
+        /* Белый текст для первого слайда */
         .first-slide .story-title,
         .first-slide .story-text {
             color: white;
@@ -279,12 +273,12 @@
         }
         
         .swipe-arrow {
-            font-size: 1.8rem;
+            font-size: 2rem;
             color: rgba(255, 255, 255, 0.7);
             animation: bounce 2s infinite;
             background: rgba(0,0,0,0.3);
-            width: 55px;
-            height: 55px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             display: inline-flex;
             align-items: center;
@@ -302,63 +296,63 @@
         /* Мобильная адаптация */
         @media (max-width: 768px) {
             :root {
-                --slide-height: 75vh;
                 --slide-radius: 25px;
-                --peek-height: 25px;
-                --slide-margin-top: 8vh;
-                --slide-margin-bottom: 8vh;
+                --peek-height: 35px;
             }
             
             .slide-visual {
-                left: 10px;
-                right: 10px;
+                left: 8px;
+                right: 8px;
+                top: 8px;
+                bottom: 8px;
             }
             
             .story-slide:not(:last-child)::after {
-                left: 10px;
-                right: 10px;
+                left: 8px;
+                right: 8px;
+                bottom: -8px;
             }
             
-            .story-title { font-size: 2.5rem; }
-            .first-slide .story-title { font-size: 2.8rem; }
-            .story-text { font-size: 1.5rem; }
-            .first-slide .story-text { font-size: 1.6rem; }
-            .story-stat-number { font-size: 4rem; }
-            .story-stat-label { font-size: 1.6rem; }
-            .story-emoji { font-size: 3.5rem; }
-            .message-text { font-size: 1.4rem; }
+            .story-title { font-size: 2.8rem; }
+            .first-slide .story-title { font-size: 3rem; }
+            .story-text { font-size: 1.6rem; }
+            .first-slide .story-text { font-size: 1.7rem; padding: 18px; }
+            .story-stat-number { font-size: 4.5rem; }
+            .story-stat-label { font-size: 1.7rem; }
+            .story-emoji { font-size: 4rem; }
+            .message-text { font-size: 1.5rem; }
         }
         
         @media (max-width: 480px) {
             :root {
-                --slide-height: 70vh;
                 --slide-radius: 20px;
-                --peek-height: 20px;
-                --slide-margin-top: 10vh;
-                --slide-margin-bottom: 10vh;
+                --peek-height: 30px;
             }
             
             .slide-visual {
-                left: 8px;
-                right: 8px;
+                left: 6px;
+                right: 6px;
+                top: 6px;
+                bottom: 6px;
             }
             
             .story-slide:not(:last-child)::after {
-                left: 8px;
-                right: 8px;
+                left: 6px;
+                right: 6px;
+                bottom: -6px;
             }
             
             .slide-content {
                 padding: 15px 10px;
             }
             
-            .story-title { font-size: 2.2rem; }
-            .first-slide .story-title { font-size: 2.5rem; }
+            .story-title { font-size: 2.4rem; }
+            .first-slide .story-title { font-size: 2.6rem; }
             .story-text { font-size: 1.4rem; }
-            .first-slide .story-text { font-size: 1.5rem; padding: 12px; }
-            .story-stat-number { font-size: 3.5rem; }
+            .first-slide .story-text { font-size: 1.5rem; padding: 15px; }
+            .story-stat-number { font-size: 4rem; }
             .story-stat-label { font-size: 1.5rem; }
-            .story-emoji { font-size: 3rem; }
+            .story-emoji { font-size: 3.5rem; }
             .message-text { font-size: 1.3rem; }
         }
         
@@ -388,8 +382,8 @@
                     emoji: "❤️",
                     title: "Наш 2024 год",
                     text: "Каждое сообщение — это маленькая история нашей любви. Свайпай вверх, чтобы увидеть наши лучшие моменты!",
-                    backgroundImage: "images/1.jpg", // Фоновая картинка для первого слайда
-                    backgroundColor: "linear-gradient(135deg, rgba(102, 126, 234, 0.8), rgba(118, 75, 162, 0.8))" // Градиент поверх картинки
+                    backgroundImage: "./images/1.jpg",
+                    backgroundColor: "rgba(102, 126, 234, 0.2)" /* БОЛЕЕ ПРОЗРАЧНЫЙ градиент для лучшей видимости фото */
                 },
                 {
                     type: "stat",
@@ -513,28 +507,23 @@
         let currentY = 0;
         let isSwiping = false;
         let containerOffset = 0;
-        let slideHeight = window.innerHeight * 0.8 + window.innerHeight * 0.1 + window.innerHeight * 0.1;
+        let slideHeight = window.innerHeight; // ПОЛНАЯ высота экрана
 
         document.addEventListener('DOMContentLoaded', function() {
-            updateSlideHeight();
             createSlides();
             setupEvents();
             updateSlideIndicator();
             
+            // Быстро скрываем индикатор свайпа
             setTimeout(() => {
                 swipeIndicator.style.opacity = '0.5';
                 setTimeout(() => {
                     swipeIndicator.style.display = 'none';
-                }, 3000);
-            }, 5000);
+                }, 2000);
+            }, 3000);
             
             updateContainerPosition();
         });
-
-        function updateSlideHeight() {
-            const vh = window.innerHeight;
-            slideHeight = vh * 0.8 + vh * 0.1 + vh * 0.1;
-        }
 
         function createSlides() {
             container.innerHTML = '';
@@ -550,8 +539,14 @@
                 // Особый стиль для первого слайда с картинкой
                 if (index === 0 && story.backgroundImage) {
                     visual.classList.add('first-slide');
-                    visual.style.background = `${story.backgroundColor || 'rgba(0,0,0,0.3)'}, url('${story.backgroundImage}')`;
-                } else {
+                    // Установите фон картинки через background-image
+                    visual.style.backgroundImage = `url('${story.backgroundImage}')`;
+                    // И если нужен оверлей поверх, задайте его отдельно
+                    if (story.backgroundColor) {
+                        visual.style.backgroundColor = story.backgroundColor;
+                    }
+                }
+                else {
                     visual.style.background = story.background;
                 }
                 
@@ -706,7 +701,7 @@
         }
 
         function handleResize() {
-            updateSlideHeight();
+            slideHeight = window.innerHeight; // Обновляем высоту при ресайзе
             updateContainerPosition();
         }
 
@@ -747,20 +742,12 @@
             }, 300);
         }
 
-        let inactivityTimer;
-        function resetInactivityTimer() {
-            clearTimeout(inactivityTimer);
-            inactivityTimer = setTimeout(() => {
-                if (currentSlideIndex < totalSlides - 1) {
-                    goToSlide(currentSlideIndex + 1);
-                }
-            }, 7000);
-        }
+        // УБРАЛ автоскролл через 10 секунд - теперь только ручное управление
 
-        document.addEventListener('touchstart', resetInactivityTimer);
-        document.addEventListener('click', resetInactivityTimer);
-        document.addEventListener('keydown', resetInactivityTimer);
-        resetInactivityTimer();
+        // Оставляем только ручное управление
+        document.addEventListener('touchstart', () => {});
+        document.addEventListener('click', () => {});
+        document.addEventListener('keydown', () => {});
     </script>
 </body>
 </html>
