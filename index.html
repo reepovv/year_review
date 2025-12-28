@@ -123,7 +123,100 @@
             z-index: 1;
         }
         
-        /* Стили для контента */
+        /* Стили для первого слайда - НОВЫЕ */
+        .year-number {
+            font-family: 'MyCustomFont', sans-serif;
+            font-size: 9rem;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.7), 0 0 60px rgba(255, 255, 255, 0.4);
+            color: white;
+            letter-spacing: 5px;
+            background: linear-gradient(45deg, #fff 30%, #ffcc00 70%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.5), 0 0 40px rgba(255, 255, 255, 0.3);
+            }
+            to {
+                text-shadow: 0 0 40px rgba(255, 255, 255, 0.8), 0 0 80px rgba(255, 255, 255, 0.5);
+            }
+        }
+
+        /* Замени стили .year-number на эти: */
+        .year-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .year-top, .year-bottom {
+            font-family: 'MyCustomFont', sans-serif;
+            font-weight: 900;
+            line-height: 0.9;
+            text-shadow: 0 0 40px rgba(255, 255, 255, 0.8), 0 0 80px rgba(255, 255, 255, 0.5);
+            color: white;
+            letter-spacing: 8px;
+            background: linear-gradient(45deg, #fff 30%, #ffcc00 70%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .year-top {
+            font-size: 10rem;
+        }
+
+        .year-bottom {
+            font-size: 10rem;
+        }
+
+        /* Медиа-запросы для адаптации */
+        @media (max-width: 768px) {
+            .year-top, .year-bottom {
+                font-size: 8rem;
+                letter-spacing: 5px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .year-top, .year-bottom {
+                font-size: 6rem;
+                letter-spacing: 3px;
+            }
+        }
+        
+        
+        .main-title {
+            font-family: 'Caveat', cursive;
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            line-height: 1.2;
+            font-weight: 700;
+            max-width: 90%;
+            color: white;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.7);
+        }
+        
+        .subtitle {
+            font-size: 2rem;
+            line-height: 1.4;
+            max-width: 85%;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            margin-bottom: 40px;
+            padding: 0 20px;
+        }
+        
+        /* Стили для остальных слайдов */
         .story-emoji {
             font-size: 4.5rem;
             margin-bottom: 25px;
@@ -139,11 +232,6 @@
             font-weight: 700;
             max-width: 90%;
             text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); /* Более сильная тень */
-        }
-        
-        .first-slide .story-title {
-            font-size: 3.5rem;
-            margin-bottom: 30px;
         }
         
         .story-text {
@@ -212,6 +300,16 @@
             text-align: right;
         }
         
+        /* Градиентные тексты */
+        .gradient-text {
+            background: linear-gradient(45deg, #ff6b8b, #ffa500, #ffcc00, #6a5af9);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 5s ease infinite;
+        }
+        
         /* Индикатор текущего слайда */
         .slide-indicator {
             position: fixed;
@@ -226,26 +324,6 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.1);
             font-weight: 600;
-        }
-        
-        /* Градиентные тексты */
-        .gradient-text {
-            background: linear-gradient(45deg, #ff6b8b, #ffa500, #ffcc00, #6a5af9);
-            background-size: 300% 300%;
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradientShift 5s ease infinite;
-        }
-        
-        /* Белый текст для первого слайда */
-        .first-slide .story-title,
-        .first-slide .story-text {
-            color: white;
-            -webkit-text-fill-color: white;
-            background: none;
-            -webkit-background-clip: border-box;
-            background-clip: border-box;
         }
         
         /* Анимации */
@@ -313,8 +391,21 @@
                 bottom: -8px;
             }
             
+            .year-number {
+                font-size: 7rem;
+                letter-spacing: 3px;
+            }
+            
+            .main-title {
+                font-size: 3rem;
+            }
+            
+            .subtitle {
+                font-size: 1.7rem;
+                max-width: 90%;
+            }
+            
             .story-title { font-size: 2.8rem; }
-            .first-slide .story-title { font-size: 3rem; }
             .story-text { font-size: 1.6rem; }
             .first-slide .story-text { font-size: 1.7rem; padding: 18px; }
             .story-stat-number { font-size: 4.5rem; }
@@ -342,12 +433,28 @@
                 bottom: -6px;
             }
             
+            .year-number {
+                font-size: 5.5rem;
+                letter-spacing: 2px;
+                margin-bottom: 15px;
+            }
+            
+            .main-title {
+                font-size: 2.5rem;
+                margin-bottom: 10px;
+            }
+            
+            .subtitle {
+                font-size: 1.5rem;
+                margin-bottom: 30px;
+                padding: 0 15px;
+            }
+            
             .slide-content {
                 padding: 15px 10px;
             }
             
             .story-title { font-size: 2.4rem; }
-            .first-slide .story-title { font-size: 2.6rem; }
             .story-text { font-size: 1.4rem; }
             .first-slide .story-text { font-size: 1.5rem; padding: 15px; }
             .story-stat-number { font-size: 4rem; }
@@ -383,7 +490,7 @@
                     title: "Наш 2024 год",
                     text: "Каждое сообщение — это маленькая история нашей любви. Свайпай вверх, чтобы увидеть наши лучшие моменты!",
                     backgroundImage: "./images/1.jpg",
-                    backgroundColor: "rgba(102, 126, 234, 0.2)" /* БОЛЕЕ ПРОЗРАЧНЫЙ градиент для лучшей видимости фото */
+                    backgroundColor: "rgba(102, 126, 234, 0.2)"
                 },
                 {
                     type: "stat",
@@ -545,28 +652,30 @@
                     if (story.backgroundColor) {
                         visual.style.backgroundColor = story.backgroundColor;
                     }
-                }
-                else {
+                } else {
                     visual.style.background = story.background;
                 }
                 
                 let contentHTML = '';
                 
-                switch (story.type) {
-                    case 'intro':
-                    case 'outro':
-                    case 'moment':
-                        contentHTML = `
-                            <div class="slide-content">
-                                <div class="story-emoji ${index === 0 ? '' : 'gradient-text'}">${story.emoji}</div>
-                                <h1 class="story-title ${index === 0 ? '' : 'gradient-text'}">${story.title}</h1>
-                                <p class="story-text">${story.text}</p>
-                            </div>
-                        `;
-                        break;
-                        
-                    case 'stat':
-                        if (story.text) {
+                // ОСОБЫЙ ШАБЛОН ДЛЯ ПЕРВОГО СЛАЙДА
+                if (index === 0) {
+                    contentHTML = `
+                    <div class="slide-content">
+                        <div class="year-container">
+                            <div class="year-top">20</div>
+                            <div class="year-bottom">25</div>
+                        </div>
+                        <h1 class="main-title">Наши итоги года</h1>
+                        <p class="subtitle">Посмотри, какой замечательный год это был!</p>
+                    </div>
+                `;
+                } else {
+                    // Остальные слайды остаются без изменений
+                    switch (story.type) {
+                        case 'intro':
+                        case 'outro':
+                        case 'moment':
                             contentHTML = `
                                 <div class="slide-content">
                                     <div class="story-emoji gradient-text">${story.emoji}</div>
@@ -574,41 +683,53 @@
                                     <p class="story-text">${story.text}</p>
                                 </div>
                             `;
-                        } else {
+                            break;
+                            
+                        case 'stat':
+                            if (story.text) {
+                                contentHTML = `
+                                    <div class="slide-content">
+                                        <div class="story-emoji gradient-text">${story.emoji}</div>
+                                        <h1 class="story-title gradient-text">${story.title}</h1>
+                                        <p class="story-text">${story.text}</p>
+                                    </div>
+                                `;
+                            } else {
+                                contentHTML = `
+                                    <div class="slide-content">
+                                        <div class="story-emoji gradient-text">${story.emoji}</div>
+                                        <h1 class="story-title gradient-text">${story.title}</h1>
+                                        <span class="story-stat-number gradient-text">${story.value}</span>
+                                        <p class="story-stat-label">${story.label}</p>
+                                    </div>
+                                `;
+                            }
+                            break;
+                            
+                        case 'words':
                             contentHTML = `
                                 <div class="slide-content">
                                     <div class="story-emoji gradient-text">${story.emoji}</div>
                                     <h1 class="story-title gradient-text">${story.title}</h1>
-                                    <span class="story-stat-number gradient-text">${story.value}</span>
-                                    <p class="story-stat-label">${story.label}</p>
+                                    <p class="story-text">${story.text}</p>
                                 </div>
                             `;
-                        }
-                        break;
-                        
-                    case 'words':
-                        contentHTML = `
-                            <div class="slide-content">
-                                <div class="story-emoji gradient-text">${story.emoji}</div>
-                                <h1 class="story-title gradient-text">${story.title}</h1>
-                                <p class="story-text">${story.text}</p>
-                            </div>
-                        `;
-                        break;
-                        
-                    case 'message':
-                        contentHTML = `
-                            <div class="slide-content">
-                                <div class="story-emoji gradient-text">${story.emoji}</div>
-                                <h1 class="story-title gradient-text">${story.title}</h1>
-                                <div class="message-bubble">
-                                    <div class="message-author">${story.author}</div>
-                                    <div class="message-text">${story.text}</div>
-                                    <div class="message-date">${story.date}</div>
+                            break;
+                            
+                        case 'message':
+                            contentHTML = `
+                                <div class="slide-content">
+                                    <div class="story-emoji gradient-text">${story.emoji}</div>
+                                    <h1 class="story-title gradient-text">${story.title}</h1>
+                                    <div class="message-bubble">
+                                        <div class="message-author">${story.author}</div>
+                                        <div class="message-text">${story.text}</div>
+                                        <div class="message-date">${story.date}</div>
+                                    </div>
                                 </div>
-                            </div>
-                        `;
-                        break;
+                            `;
+                            break;
+                    }
                 }
                 
                 visual.innerHTML = contentHTML;
@@ -741,8 +862,6 @@
                 swipeIndicator.style.display = 'none';
             }, 300);
         }
-
-        // УБРАЛ автоскролл через 10 секунд - теперь только ручное управление
 
         // Оставляем только ручное управление
         document.addEventListener('touchstart', () => {});
