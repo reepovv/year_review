@@ -231,7 +231,7 @@
             background-position: center !important;
             background-repeat: no-repeat !important;
         }
-        
+
         .fourth-slide::before {
             content: '';
             position: absolute;
@@ -242,12 +242,13 @@
             background: rgba(0, 0, 0, 0.6);
             z-index: 1;
         }
-        
+
+        /* УДАЛИТЬ старый sticker-container и заменить на новый */
         .sticker-container {
             position: absolute;
-            top: 50%;
+            top: 50px; /* Отступ сверху */
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translateX(-50%); /* Только по горизонтали */
             z-index: 2;
             width: 300px;
             height: 300px;
@@ -529,9 +530,13 @@
         }
         
         @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
+            0%, 100% { 
+                transform: translateX(-50%) translateY(0); 
+            }
+            50% { 
+                transform: translateX(-50%) translateY(-10px); 
+            }
+}
         
         @keyframes gradientShift {
             0% { background-position: 0% 50%; }
@@ -652,6 +657,7 @@
             .sticker-container {
                 width: 250px;
                 height: 250px;
+                 top: 40px;
             }
             
             .fourth-slide-text {
@@ -742,6 +748,7 @@
             .sticker-container {
                 width: 200px;
                 height: 200px;
+                top: 30px;
             }
             
             .fourth-slide-content {
