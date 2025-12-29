@@ -8,6 +8,54 @@
     "balance": "43/56",
     "averagePerDay": "380"
   },
+  "videoStats": {
+    "total": "1 933",
+    "myVideoMessages": "1 314",
+    "partnerVideoMessages": "619",
+    "myVideoDuration": "10 ч 55 мин 11 сек",
+    "partnerVideoDuration": "1 ч 59 мин 36 сек",
+    "totalVideoDuration": "12 ч 54 мин 47 сек",
+    "myVideoPatterns": [
+      {
+        "durationRange": "6-15 сек",
+        "count": "548"
+      },
+      {
+        "durationRange": "0-5 сек",
+        "count": "311"
+      },
+      {
+        "durationRange": "16-30 сек",
+        "count": "241"
+      }
+    ],
+    "partnerVideoPatterns": [
+      {
+        "durationRange": "6-15 сек",
+        "count": "262"
+      },
+      {
+        "durationRange": "0-5 сек",
+        "count": "243"
+      },
+      {
+        "durationRange": "16-30 сек",
+        "count": "69"
+      }
+    ],
+    "firstVideoMessage": {
+      "exists": true,
+      "file": "round_video_messages/video.mp4",
+      "date": "2025-01-01T01:25:01",
+      "from": "Михаил Страховский",
+      "duration_seconds": 12,
+      "duration_formatted": "12 сек",
+      "width": 400,
+      "height": 400,
+      "file_size": 1627221,
+      "file_size_formatted": "1.55 МБ"
+    }
+  },
   "stickerStats": {
     "total": "18 297",
     "myStickers": "6 017",

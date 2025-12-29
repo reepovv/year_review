@@ -25,6 +25,209 @@ class TelegramDataParser {
         return this.getMessagesByUser(userName).length;
     }
 
+    // Функции для видеосообщений (кружочков)
+    getVideoMessages() {
+        if (!this.telegramData || !this.telegramData.messages) {
+            return [];
+        }
+        return this.telegramData.messages.filter(msg => 
+            msg.media_type === 'video_message' || 
+            msg.mime_type === 'video/mp4' ||
+            (msg.file && msg.file.includes('round_video_messages'))
+        );
+    }
+
+    getTotalVideoMessages() {
+        return this.getVideoMessages().length;
+    }
+
+    getVideoMessagesByUser(userName) {
+        const videoMessages = this.getVideoMessages();
+        return videoMessages.filter(msg => msg.from === userName);
+    }
+
+    getVideoMessageCountByUser(userName) {
+        return this.getVideoMessagesByUser(userName).length;
+    }
+
+    getTotalVideoDurationByUser(userName) {
+        const videoMessages = this.getVideoMessagesByUser(userName);
+        let totalDuration = 0;
+        
+        videoMessages.forEach(msg => {
+            if (msg.duration_seconds && typeof msg.duration_seconds === 'number') {
+                totalDuration += msg.duration_seconds;
+            }
+        });
+        
+        return totalDuration;
+    }
+
+    formatDuration(seconds) {
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const secs = Math.floor(seconds % 60);
+        
+        if (hours > 0) {
+            return `${hours} ч ${minutes} мин ${secs} сек`;
+        } else if (minutes > 0) {
+            return `${minutes} мин ${secs} сек`;
+        } else {
+            return `${secs} сек`;
+        }
+    }
+
+    getVideoMessageStats() {
+        const myName = 'Михаил Страховский';
+        const users = {};
+        
+        // Находим имена пользователей
+        this.telegramData.messages.forEach(msg => {
+            if (msg.from) {
+                users[msg.from] = true;
+            }
+        });
+
+        const userNames = Object.keys(users);
+        const partnerName = userNames.find(name => name !== myName) || 'Партнер';
+
+        const totalVideoMessages = this.getTotalVideoMessages();
+        const myVideoMessages = this.getVideoMessageCountByUser(myName);
+        const partnerVideoMessages = this.getVideoMessageCountByUser(partnerName);
+        
+        const myVideoDuration = this.getTotalVideoDurationByUser(myName);
+        const partnerVideoDuration = this.getTotalVideoDurationByUser(partnerName);
+        const totalVideoDuration = myVideoDuration + partnerVideoDuration;
+
+        return {
+            total: totalVideoMessages,
+            myVideoMessages: myVideoMessages,
+            partnerVideoMessages: partnerVideoMessages,
+            myVideoDuration: myVideoDuration,
+            partnerVideoDuration: partnerVideoDuration,
+            totalVideoDuration: totalVideoDuration,
+            myVideoDurationFormatted: this.formatDuration(myVideoDuration),
+            partnerVideoDurationFormatted: this.formatDuration(partnerVideoDuration),
+            totalVideoDurationFormatted: this.formatDuration(totalVideoDuration),
+            partnerName: partnerName,
+            myName: myName
+        };
+    }
+
+    getFirstVideoMessage() {
+        const videoMessages = this.getVideoMessages();
+        
+        if (videoMessages.length === 0) {
+            return null;
+        }
+        
+        // Сортируем по дате (самый ранний первый)
+        const sortedMessages = videoMessages.sort((a, b) => {
+            const timeA = a.date_unixtime ? parseInt(a.date_unixtime) : 0;
+            const timeB = b.date_unixtime ? parseInt(b.date_unixtime) : 0;
+            return timeA - timeB;
+        });
+        
+        return sortedMessages[0];
+    }
+
+    getFirstVideoMessageDetails() {
+        const firstVideoMessage = this.getFirstVideoMessage();
+        
+        if (!firstVideoMessage) {
+            return {
+                exists: false,
+                message: "Видеосообщений не найдено"
+            };
+        }
+        
+        return {
+            exists: true,
+            file: firstVideoMessage.file || "Не указан",
+            date: firstVideoMessage.date || "Не указана",
+            from: firstVideoMessage.from || "Не указан",
+            duration_seconds: firstVideoMessage.duration_seconds || 0,
+            duration_formatted: this.formatDuration(firstVideoMessage.duration_seconds || 0),
+            width: firstVideoMessage.width || "Не указано",
+            height: firstVideoMessage.height || "Не указано",
+            file_size: firstVideoMessage.file_size || 0,
+            file_size_formatted: this.formatFileSize(firstVideoMessage.file_size || 0)
+        };
+    }
+
+    formatFileSize(bytes) {
+        if (bytes === 0) return "0 Б";
+        
+        const k = 1024;
+        const sizes = ['Б', 'КБ', 'МБ', 'ГБ'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+
+    getMostFrequentVideoMessagesByUser(userName, limit = 5) {
+        const videoMessages = this.getVideoMessagesByUser(userName);
+        
+        // Группируем по продолжительности (близкие значения считаем одинаковыми)
+        const durationMap = {};
+        const durationRanges = [
+            { min: 0, max: 5, label: "0-5 сек" },
+            { min: 6, max: 15, label: "6-15 сек" },
+            { min: 16, max: 30, label: "16-30 сек" },
+            { min: 31, max: 60, label: "31-60 сек" },
+            { min: 61, max: Infinity, label: "более 60 сек" }
+        ];
+        
+        videoMessages.forEach(msg => {
+            const duration = msg.duration_seconds || 0;
+            let rangeLabel = "другое";
+            
+            for (const range of durationRanges) {
+                if (duration >= range.min && duration <= range.max) {
+                    rangeLabel = range.label;
+                    break;
+                }
+            }
+            
+            durationMap[rangeLabel] = (durationMap[rangeLabel] || 0) + 1;
+        });
+
+        return Object.entries(durationMap)
+            .sort(([, a], [, b]) => b - a)
+            .slice(0, limit)
+            .map(([durationRange, count]) => ({ 
+                durationRange: durationRange,
+                count: count 
+            }));
+    }
+
+    getAllVideoStats() {
+        const videoStats = this.getVideoMessageStats();
+        const myName = 'Михаил Страховский';
+        const partnerName = videoStats.partnerName;
+        
+        const myVideoPatterns = this.getMostFrequentVideoMessagesByUser(myName, 3);
+        const partnerVideoPatterns = this.getMostFrequentVideoMessagesByUser(partnerName, 3);
+        const firstVideoDetails = this.getFirstVideoMessageDetails();
+
+        return {
+            total: videoStats.total,
+            myVideoMessages: videoStats.myVideoMessages,
+            partnerVideoMessages: videoStats.partnerVideoMessages,
+            myVideoDuration: videoStats.myVideoDuration,
+            partnerVideoDuration: videoStats.partnerVideoDuration,
+            totalVideoDuration: videoStats.totalVideoDuration,
+            myVideoDurationFormatted: videoStats.myVideoDurationFormatted,
+            partnerVideoDurationFormatted: videoStats.partnerVideoDurationFormatted,
+            totalVideoDurationFormatted: videoStats.totalVideoDurationFormatted,
+            myVideoPatterns: myVideoPatterns,
+            partnerVideoPatterns: partnerVideoPatterns,
+            firstVideoMessage: firstVideoDetails,
+            partnerName: partnerName,
+            myName: myName
+        };
+    }
+
     // Функции для стикеров
     getStickers() {
         if (!this.telegramData || !this.telegramData.messages) {
@@ -255,6 +458,7 @@ class TelegramDataParser {
     getAllStats() {
         const stats = this.getMessageStats();
         const stickerStats = this.getAllStickerStats();
+        const videoStats = this.getAllVideoStats();
         const mostActiveMonth = this.getMostActiveMonth();
         const frequentWords = this.getMostFrequentWords(10);
         
@@ -269,6 +473,23 @@ class TelegramDataParser {
                 partnerMessages: formatNumber(stats.partnerMessages),
                 balance: stats.balance,
                 averagePerDay: formatNumber(stats.averagePerDay)
+            },
+            videoStats: {
+                total: formatNumber(videoStats.total),
+                myVideoMessages: formatNumber(videoStats.myVideoMessages),
+                partnerVideoMessages: formatNumber(videoStats.partnerVideoMessages),
+                myVideoDuration: videoStats.myVideoDurationFormatted,
+                partnerVideoDuration: videoStats.partnerVideoDurationFormatted,
+                totalVideoDuration: videoStats.totalVideoDurationFormatted,
+                myVideoPatterns: videoStats.myVideoPatterns.map(p => ({
+                    durationRange: p.durationRange,
+                    count: formatNumber(p.count)
+                })),
+                partnerVideoPatterns: videoStats.partnerVideoPatterns.map(p => ({
+                    durationRange: p.durationRange,
+                    count: formatNumber(p.count)
+                })),
+                firstVideoMessage: videoStats.firstVideoMessage
             },
             stickerStats: {
                 total: formatNumber(stickerStats.total),
@@ -326,6 +547,29 @@ function main() {
         console.log(`В среднем за день: ${allStats.stats.averagePerDay}`);
         console.log('');
         
+        console.log('🎥 Статистика видеосообщений:');
+        console.log(`Всего видеосообщений: ${allStats.videoStats.total}`);
+        console.log(`Мои видеосообщения: ${allStats.videoStats.myVideoMessages}`);
+        console.log(`Видеосообщения ${allStats.partnerName}: ${allStats.videoStats.partnerVideoMessages}`);
+        console.log(`Общая длительность моих видео: ${allStats.videoStats.myVideoDuration}`);
+        console.log(`Общая длительность видео ${allStats.partnerName}: ${allStats.videoStats.partnerVideoDuration}`);
+        console.log(`Общая длительность всех видео: ${allStats.videoStats.totalVideoDuration}`);
+        console.log('');
+        
+        // Выводим информацию о первом видеосообщении
+        console.log('📅 Первое видеосообщение:');
+        const firstVideo = allStats.videoStats.firstVideoMessage;
+        if (firstVideo.exists) {
+            console.log(`Файл: ${firstVideo.file}`);
+            console.log(`Дата: ${firstVideo.date}`);
+            console.log(`От: ${firstVideo.from}`);
+            console.log(`Длительность: ${firstVideo.duration_formatted}`);
+            console.log(`Размер: ${firstVideo.file_size_formatted}`);
+        } else {
+            console.log(firstVideo.message);
+        }
+        console.log('');
+        
         console.log('🎨 Статистика стикеров:');
         console.log(`Всего стикеров: ${allStats.stickerStats.total}`);
         console.log(`Мои стикеры: ${allStats.stickerStats.myStickers}`);
@@ -367,7 +611,7 @@ function main() {
         console.log('='.repeat(60));
         console.log('');
         
-        // Форматируем стикеры для HTML
+        // Форматируем данные для HTML
         const formatStickers = (stickers) => {
             if (!stickers || stickers.length === 0) return '';
             return stickers.map(s => `${s.sticker} — ${s.count} раз`).join('<br>');
@@ -381,6 +625,13 @@ function main() {
         console.log(`Сообщения ${allStats.partnerName}: ${allStats.stats.partnerMessages}`);
         console.log(`Баланс: ${allStats.stats.balance}`);
         console.log(`Сообщений в среднем за день: ${allStats.stats.averagePerDay}`);
+        console.log('');
+        console.log(`Всего видеосообщений: ${allStats.videoStats.total}`);
+        console.log(`Ваши видеосообщения: ${allStats.videoStats.myVideoMessages}`);
+        console.log(`Видеосообщения ${allStats.partnerName}: ${allStats.videoStats.partnerVideoMessages}`);
+        console.log(`Длительность ваших видео: ${allStats.videoStats.myVideoDuration}`);
+        console.log(`Длительность видео ${allStats.partnerName}: ${allStats.videoStats.partnerVideoDuration}`);
+        console.log(`Общая длительность видео: ${allStats.videoStats.totalVideoDuration}`);
         console.log('');
         console.log(`Всего стикеров: ${allStats.stickerStats.total}`);
         console.log(`Ваши стикеры: ${allStats.stickerStats.myStickers}`);
