@@ -22,7 +22,7 @@
         }
         
         :root {
-            --slide-height: 100vh; /* ПОЛНЫЙ ЭКРАН */
+            --slide-height: 100vh;
             --slide-radius: 30px;
             --peek-height: 40px;
         }
@@ -40,7 +40,6 @@
             touch-action: none;
         }
         
-        /* Контейнер для всех слайдов */
         .slides-container {
             position: absolute;
             top: 0;
@@ -50,7 +49,6 @@
             will-change: transform;
         }
         
-        /* Каждый слайд - ПОЛНЫЙ ЭКРАН */
         .story-slide {
             width: 100vw;
             height: var(--slide-height);
@@ -58,7 +56,6 @@
             overflow: hidden;
         }
         
-        /* Визуальный контейнер с закруглениями */
         .slide-visual {
             position: absolute;
             top: 10px;
@@ -70,36 +67,80 @@
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
         }
         
-        /* Для первого слайда с картинкой */
-        .slide-visual.first-slide {
+        /* ПЕРВЫЙ СЛАЙД - ПРОСТОЙ И ЧИСТЫЙ */
+        .first-slide {
             background-size: cover !important;
             background-position: center !important;
             background-repeat: no-repeat !important;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
         }
         
-        /* МЕНЬШЕЕ затемнение для лучшей видимости картинки */
-        .slide-visual.first-slide::before {
+        .first-slide::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.3); /* МЕНЬШАЯ прозрачность: было 0.4, стало 0.3 */
+            background: rgba(0, 0, 0, 0.4); /* Затемнение фона */
             z-index: 1;
         }
         
-        /* Контент на первом слайде должен быть поверх оверлея */
-        .slide-visual.first-slide .slide-content {
+        /* БОЛЬШИЕ ЦИФРЫ ГОДА - ПРОСТО И ЯСНО */
+        .big-year {
             position: relative;
             z-index: 2;
+            margin-bottom: 30px;
         }
         
-        /* Peek-эффект */
+        .year-2025 {
+            font-family: 'MyCustomFont', sans-serif;
+            font-size: 8rem;
+            font-weight: 900;
+            line-height: 1;
+            color: white;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.5),
+                        0 0 60px rgba(255, 255, 255, 0.3),
+                        0 0 90px rgba(255, 255, 255, 0.2);
+            letter-spacing: 5px;
+            margin: 0;
+        }
+        
+        /* ЗАГОЛОВОК */
+        .year-title {
+            position: relative;
+            z-index: 2;
+            font-family: 'Caveat', cursive;
+            font-size: 3.8rem;
+            font-weight: 700;
+            color: white;
+            text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.8);
+            margin-bottom: 20px;
+            max-width: 90%;
+            line-height: 1.2;
+        }
+        
+        /* ПОДЗАГОЛОВОК */
+        .year-subtitle {
+            position: relative;
+            z-index: 2;
+            font-size: 2.2rem;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+            max-width: 85%;
+            line-height: 1.4;
+            padding: 0 20px;
+        }
+        
         .story-slide:not(:last-child)::after {
             content: '';
             position: absolute;
-            bottom: -10px; /* Изменено для полного экрана */
+            bottom: -10px;
             left: 10px;
             right: 10px;
             height: var(--peek-height);
@@ -110,7 +151,7 @@
             filter: brightness(1.1);
         }
         
-        /* Контент внутри слайда */
+        /* ОСТАЛЬНЫЕ СЛАЙДЫ */
         .slide-content {
             height: 100%;
             display: flex;
@@ -120,103 +161,9 @@
             padding: 20px 15px;
             text-align: center;
             position: relative;
-            z-index: 1;
+            z-index: 2;
         }
         
-        /* Стили для первого слайда - НОВЫЕ */
-        .year-number {
-            font-family: 'MyCustomFont', sans-serif;
-            font-size: 9rem;
-            font-weight: 900;
-            line-height: 1;
-            margin-bottom: 20px;
-            text-shadow: 0 0 30px rgba(255, 255, 255, 0.7), 0 0 60px rgba(255, 255, 255, 0.4);
-            color: white;
-            letter-spacing: 5px;
-            background: linear-gradient(45deg, #fff 30%, #ffcc00 70%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: glow 2s ease-in-out infinite alternate;
-        }
-        
-        @keyframes glow {
-            from {
-                text-shadow: 0 0 20px rgba(255, 255, 255, 0.5), 0 0 40px rgba(255, 255, 255, 0.3);
-            }
-            to {
-                text-shadow: 0 0 40px rgba(255, 255, 255, 0.8), 0 0 80px rgba(255, 255, 255, 0.5);
-            }
-        }
-
-        /* Замени стили .year-number на эти: */
-        .year-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .year-top, .year-bottom {
-            font-family: 'MyCustomFont', sans-serif;
-            font-weight: 900;
-            line-height: 0.9;
-            text-shadow: 0 0 40px rgba(255, 255, 255, 0.8), 0 0 80px rgba(255, 255, 255, 0.5);
-            color: white;
-            letter-spacing: 8px;
-            background: linear-gradient(45deg, #fff 30%, #ffcc00 70%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: glow 2s ease-in-out infinite alternate;
-        }
-
-        .year-top {
-            font-size: 10rem;
-        }
-
-        .year-bottom {
-            font-size: 10rem;
-        }
-
-        /* Медиа-запросы для адаптации */
-        @media (max-width: 768px) {
-            .year-top, .year-bottom {
-                font-size: 8rem;
-                letter-spacing: 5px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .year-top, .year-bottom {
-                font-size: 6rem;
-                letter-spacing: 3px;
-            }
-        }
-        
-        
-        .main-title {
-            font-family: 'Caveat', cursive;
-            font-size: 3.5rem;
-            margin-bottom: 15px;
-            line-height: 1.2;
-            font-weight: 700;
-            max-width: 90%;
-            color: white;
-            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.7);
-        }
-        
-        .subtitle {
-            font-size: 2rem;
-            line-height: 1.4;
-            max-width: 85%;
-            color: rgba(255, 255, 255, 0.95);
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
-            margin-bottom: 40px;
-            padding: 0 20px;
-        }
-        
-        /* Стили для остальных слайдов */
         .story-emoji {
             font-size: 4.5rem;
             margin-bottom: 25px;
@@ -231,7 +178,7 @@
             line-height: 1.2;
             font-weight: 700;
             max-width: 90%;
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); /* Более сильная тень */
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
         }
         
         .story-text {
@@ -240,15 +187,7 @@
             margin-bottom: 25px;
             max-width: 90%;
             padding: 0 15px;
-            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7); /* Более сильная тень */
-        }
-        
-        .first-slide .story-text {
-            font-size: 2rem;
-            background: rgba(0, 0, 0, 0.4); /* Убрал блюр, только фон */
-            padding: 20px;
-            border-radius: 20px;
-            /* УБРАЛ: backdrop-filter: blur(5px); */
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
         }
         
         .story-stat-number {
@@ -268,7 +207,6 @@
             text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
         }
         
-        /* Message bubble */
         .message-bubble {
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(20px);
@@ -300,7 +238,6 @@
             text-align: right;
         }
         
-        /* Градиентные тексты */
         .gradient-text {
             background: linear-gradient(45deg, #ff6b8b, #ffa500, #ffcc00, #6a5af9);
             background-size: 300% 300%;
@@ -310,7 +247,6 @@
             animation: gradientShift 5s ease infinite;
         }
         
-        /* Индикатор текущего слайда */
         .slide-indicator {
             position: fixed;
             bottom: 25px;
@@ -326,7 +262,6 @@
             font-weight: 600;
         }
         
-        /* Анимации */
         @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
@@ -338,7 +273,6 @@
             100% { background-position: 0% 50%; }
         }
         
-        /* Индикатор свайпа */
         .swipe-indicator {
             position: fixed;
             bottom: 30px;
@@ -371,7 +305,7 @@
             60% { transform: translateY(-4px); }
         }
         
-        /* Мобильная адаптация */
+        /* МЕДИА-ЗАПРОСЫ */
         @media (max-width: 768px) {
             :root {
                 --slide-radius: 25px;
@@ -391,23 +325,22 @@
                 bottom: -8px;
             }
             
-            .year-number {
-                font-size: 7rem;
+            .year-2025 {
+                font-size: 6rem;
                 letter-spacing: 3px;
             }
             
-            .main-title {
-                font-size: 3rem;
+            .year-title {
+                font-size: 3.2rem;
             }
             
-            .subtitle {
-                font-size: 1.7rem;
+            .year-subtitle {
+                font-size: 1.8rem;
                 max-width: 90%;
             }
             
             .story-title { font-size: 2.8rem; }
             .story-text { font-size: 1.6rem; }
-            .first-slide .story-text { font-size: 1.7rem; padding: 18px; }
             .story-stat-number { font-size: 4.5rem; }
             .story-stat-label { font-size: 1.7rem; }
             .story-emoji { font-size: 4rem; }
@@ -433,21 +366,25 @@
                 bottom: -6px;
             }
             
-            .year-number {
-                font-size: 5.5rem;
+            .first-slide {
+                padding: 30px 15px;
+            }
+            
+            .year-2025 {
+                font-size: 4.5rem;
                 letter-spacing: 2px;
+                margin-bottom: 20px;
+            }
+            
+            .year-title {
+                font-size: 2.8rem;
                 margin-bottom: 15px;
             }
             
-            .main-title {
-                font-size: 2.5rem;
-                margin-bottom: 10px;
-            }
-            
-            .subtitle {
-                font-size: 1.5rem;
-                margin-bottom: 30px;
-                padding: 0 15px;
+            .year-subtitle {
+                font-size: 1.6rem;
+                max-width: 95%;
+                padding: 0 10px;
             }
             
             .slide-content {
@@ -456,14 +393,12 @@
             
             .story-title { font-size: 2.4rem; }
             .story-text { font-size: 1.4rem; }
-            .first-slide .story-text { font-size: 1.5rem; padding: 15px; }
             .story-stat-number { font-size: 4rem; }
             .story-stat-label { font-size: 1.5rem; }
             .story-emoji { font-size: 3.5rem; }
             .message-text { font-size: 1.3rem; }
         }
         
-        /* Эффект при активном свайпе */
         .swiping {
             transition: transform 0.1s linear !important;
         }
@@ -614,14 +549,13 @@
         let currentY = 0;
         let isSwiping = false;
         let containerOffset = 0;
-        let slideHeight = window.innerHeight; // ПОЛНАЯ высота экрана
+        let slideHeight = window.innerHeight;
 
         document.addEventListener('DOMContentLoaded', function() {
             createSlides();
             setupEvents();
             updateSlideIndicator();
             
-            // Быстро скрываем индикатор свайпа
             setTimeout(() => {
                 swipeIndicator.style.opacity = '0.5';
                 setTimeout(() => {
@@ -643,35 +577,26 @@
                 const visual = document.createElement('div');
                 visual.className = 'slide-visual';
                 
-                // Особый стиль для первого слайда с картинкой
                 if (index === 0 && story.backgroundImage) {
                     visual.classList.add('first-slide');
-                    // Установите фон картинки через background-image
                     visual.style.backgroundImage = `url('${story.backgroundImage}')`;
-                    // И если нужен оверлей поверх, задайте его отдельно
                     if (story.backgroundColor) {
                         visual.style.backgroundColor = story.backgroundColor;
                     }
+                    
+                    // ПРОСТОЙ И ЧИСТЫЙ ПЕРВЫЙ СЛАЙД
+                    visual.innerHTML = `
+                        <div class="big-year">
+                            <div class="year-2025">2025</div>
+                        </div>
+                        <h1 class="year-title">Наши итоги года</h1>
+                        <p class="year-subtitle">Посмотри, какой замечательный год это был!</p>
+                    `;
                 } else {
                     visual.style.background = story.background;
-                }
-                
-                let contentHTML = '';
-                
-                // ОСОБЫЙ ШАБЛОН ДЛЯ ПЕРВОГО СЛАЙДА
-                if (index === 0) {
-                    contentHTML = `
-                    <div class="slide-content">
-                        <div class="year-container">
-                            <div class="year-top">20</div>
-                            <div class="year-bottom">25</div>
-                        </div>
-                        <h1 class="main-title">Наши итоги года</h1>
-                        <p class="subtitle">Посмотри, какой замечательный год это был!</p>
-                    </div>
-                `;
-                } else {
-                    // Остальные слайды остаются без изменений
+                    
+                    let contentHTML = '';
+                    
                     switch (story.type) {
                         case 'intro':
                         case 'outro':
@@ -730,9 +655,10 @@
                             `;
                             break;
                     }
+                    
+                    visual.innerHTML = contentHTML;
                 }
                 
-                visual.innerHTML = contentHTML;
                 slide.appendChild(visual);
                 container.appendChild(slide);
             });
@@ -822,7 +748,7 @@
         }
 
         function handleResize() {
-            slideHeight = window.innerHeight; // Обновляем высоту при ресайзе
+            slideHeight = window.innerHeight;
             updateContainerPosition();
         }
 
@@ -863,7 +789,6 @@
             }, 300);
         }
 
-        // Оставляем только ручное управление
         document.addEventListener('touchstart', () => {});
         document.addEventListener('click', () => {});
         document.addEventListener('keydown', () => {});
