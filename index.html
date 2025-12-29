@@ -103,7 +103,7 @@
             z-index: 1;
         }
         
-        /* СТИЛИ ДЛЯ ВТОРОГО СЛАЙДА */
+        /* СТИЛИ ДЛЯ ВТОРОГО И ТРЕТЬЕГО СЛАЙДОВ */
         .big-numbers-container {
             position: absolute;
             top: 50px;
@@ -164,6 +164,63 @@
             text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
             padding: 0 20px;
             animation: fadeInUp 1.2s ease-out 1.2s forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        /* СТИЛИ ДЛЯ ТРЕТЬЕГО СЛАЙДА */
+        .third-slide {
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+        }
+        
+        .third-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+        
+        .third-slide-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 20px 15px 100px 15px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .third-slide-text-large {
+            font-family: 'MyCustomFont', sans-serif;
+            font-size: 2.5rem;
+            line-height: 1.4;
+            max-width: 85%;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+            padding: 0 20px;
+            margin-bottom: 30px;
+            animation: fadeInUp 1.2s ease-out 1.2s forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .third-slide-text-small {
+            font-family: 'MyCustomFont', sans-serif;
+            font-size: 1.8rem;
+            line-height: 1.4;
+            max-width: 85%;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+            padding: 0 20px;
+            animation: fadeInUp 1.2s ease-out 1.4s forwards;
             opacity: 0;
             transform: translateY(30px);
         }
@@ -514,12 +571,19 @@
                 margin-top: -10px;
             }
             
-            .second-slide-content {
+            .second-slide-content,
+            .third-slide-content {
                 padding: 20px 15px 80px 15px;
             }
             
-            .second-slide-text {
+            .second-slide-text,
+            .third-slide-text-large {
                 font-size: 1.8rem;
+                max-width: 90%;
+            }
+            
+            .third-slide-text-small {
+                font-size: 1.5rem;
                 max-width: 90%;
             }
             
@@ -588,12 +652,19 @@
                 margin-top: -8px;
             }
             
-            .second-slide-content {
+            .second-slide-content,
+            .third-slide-content {
                 padding: 20px 15px 60px 15px;
             }
             
-            .second-slide-text {
+            .second-slide-text,
+            .third-slide-text-large {
                 font-size: 1.4rem;
+                max-width: 95%;
+            }
+            
+            .third-slide-text-small {
+                font-size: 1.2rem;
                 max-width: 95%;
             }
             
@@ -629,7 +700,7 @@
     </style>
 </head>
 <body>
-    <div class="slide-indicator" id="slideIndicator">1/15</div>
+    <div class="slide-indicator" id="slideIndicator">1/16</div>
     <div class="swipe-indicator" id="swipeIndicator">
         <div class="swipe-arrow">
             <i class="fas fa-chevron-up"></i>
@@ -657,7 +728,15 @@
                     backgroundImage: "./images/2.jpg",
                     bigNumber: "138 709", // Замените это число на реальное из парсера
                     bigNumberLabel: "Сообщений",
-                    text: "Именно столько сообщений мы написали всего за 2025 год! При чем я написал 60 335 сообщений, а ты - 78 252. Сразу видно, кто больше любит поболтать)"
+                    text: "Именно столько сообщений мы написали всего за 2025 год! При чем я написал 60 335 сообщений, а ты - 78 252. Сразу видно, кто больше любит поболтать)"
+                },
+                {
+                    type: "third_slide",
+                    backgroundImage: "./images/3.jpg",
+                    bigNumber: "18 297", // Рандомная цифра для стикеров
+                    bigNumberLabel: "стикеров",
+                    textLarge: "Мы отправили всего в 2025 году",
+                    textSmall: "При чем ты отправила 12 280, а я 6 017. Стикеры с ляльками вместо тысячи слов)"
                 },
                 {
                     type: "stat",
@@ -831,6 +910,21 @@
                         </div>
                         <div class="second-slide-content">
                             <p class="second-slide-text">${story.text}</p>
+                        </div>
+                    `;
+                } else if (index === 2 && story.type === "third_slide") {
+                    // ТРЕТИЙ СЛАЙД С ФОНОМ И ЦИФРАМИ
+                    visual.classList.add('third-slide');
+                    visual.style.backgroundImage = `url('${story.backgroundImage}')`;
+                    
+                    visual.innerHTML = `
+                        <div class="big-numbers-container">
+                            <div class="big-number">${story.bigNumber}</div>
+                            <div class="big-number-label">${story.bigNumberLabel}</div>
+                        </div>
+                        <div class="third-slide-content">
+                            <p class="third-slide-text-large">${story.textLarge}</p>
+                            <p class="third-slide-text-small">${story.textSmall}</p>
                         </div>
                     `;
                 } else {

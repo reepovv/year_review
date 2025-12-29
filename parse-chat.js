@@ -25,6 +25,116 @@ class TelegramDataParser {
         return this.getMessagesByUser(userName).length;
     }
 
+    // Функции для стикеров
+    getStickers() {
+        if (!this.telegramData || !this.telegramData.messages) {
+            return [];
+        }
+        return this.telegramData.messages.filter(msg => 
+            msg.media_type === 'sticker' || 
+            (msg.text_entities && msg.text_entities.some(e => e.type === 'sticker'))
+        );
+    }
+
+    getTotalStickers() {
+        return this.getStickers().length;
+    }
+
+    getStickersByUser(userName) {
+        const stickers = this.getStickers();
+        return stickers.filter(sticker => sticker.from === userName);
+    }
+
+    getStickerCountByUser(userName) {
+        return this.getStickersByUser(userName).length;
+    }
+
+    getStickerStats() {
+        const myName = 'Михаил Страховский';
+        const users = {};
+        
+        // Находим имена пользователей
+        this.telegramData.messages.forEach(msg => {
+            if (msg.from) {
+                users[msg.from] = true;
+            }
+        });
+
+        const userNames = Object.keys(users);
+        const partnerName = userNames.find(name => name !== myName) || 'Партнер';
+
+        const totalStickers = this.getTotalStickers();
+        const myStickers = this.getStickerCountByUser(myName);
+        const partnerStickers = this.getStickerCountByUser(partnerName);
+
+        return {
+            total: totalStickers,
+            myStickers: myStickers,
+            partnerStickers: partnerStickers,
+            partnerName: partnerName,
+            myName: myName
+        };
+    }
+
+    getMostFrequentStickersByUser(userName, limit = 5) {
+        const stickers = this.getStickersByUser(userName);
+        const stickerMap = {};
+        
+        stickers.forEach(sticker => {
+            // Просто берем имя файла как есть
+            const stickerId = sticker.file || 'unknown';
+            stickerMap[stickerId] = (stickerMap[stickerId] || 0) + 1;
+        });
+
+        return Object.entries(stickerMap)
+            .sort(([, a], [, b]) => b - a)
+            .slice(0, limit)
+            .map(([sticker, count]) => ({ 
+                sticker: sticker,
+                count: count 
+            }));
+    }
+
+    getMostFrequentStickers(limit = 10) {
+        const stickers = this.getStickers();
+        const stickerMap = {};
+        
+        stickers.forEach(sticker => {
+            // Просто берем имя файла как есть
+            const stickerId = sticker.file || 'unknown';
+            stickerMap[stickerId] = (stickerMap[stickerId] || 0) + 1;
+        });
+
+        return Object.entries(stickerMap)
+            .sort(([, a], [, b]) => b - a)
+            .slice(0, limit)
+            .map(([sticker, count]) => ({ 
+                sticker: sticker,
+                count: count 
+            }));
+    }
+
+    getAllStickerStats() {
+        const stats = this.getStickerStats();
+        const myName = 'Михаил Страховский';
+        const partnerName = stats.partnerName;
+        
+        const myTopStickers = this.getMostFrequentStickersByUser(myName, 3);
+        const partnerTopStickers = this.getMostFrequentStickersByUser(partnerName, 3);
+        const topStickersOverall = this.getMostFrequentStickers(5);
+
+        return {
+            total: stats.total,
+            myStickers: stats.myStickers,
+            partnerStickers: stats.partnerStickers,
+            myTopStickers: myTopStickers,
+            partnerTopStickers: partnerTopStickers,
+            topStickersOverall: topStickersOverall,
+            partnerName: partnerName,
+            myName: myName
+        };
+    }
+
     getMostFrequentWords(limit = 10) {
         if (!this.telegramData || !this.telegramData.messages) {
             return [];
@@ -144,6 +254,7 @@ class TelegramDataParser {
 
     getAllStats() {
         const stats = this.getMessageStats();
+        const stickerStats = this.getAllStickerStats();
         const mostActiveMonth = this.getMostActiveMonth();
         const frequentWords = this.getMostFrequentWords(10);
         
@@ -158,6 +269,23 @@ class TelegramDataParser {
                 partnerMessages: formatNumber(stats.partnerMessages),
                 balance: stats.balance,
                 averagePerDay: formatNumber(stats.averagePerDay)
+            },
+            stickerStats: {
+                total: formatNumber(stickerStats.total),
+                myStickers: formatNumber(stickerStats.myStickers),
+                partnerStickers: formatNumber(stickerStats.partnerStickers),
+                myTopStickers: stickerStats.myTopStickers.map(s => ({
+                    sticker: s.sticker,
+                    count: formatNumber(s.count)
+                })),
+                partnerTopStickers: stickerStats.partnerTopStickers.map(s => ({
+                    sticker: s.sticker,
+                    count: formatNumber(s.count)
+                })),
+                topStickersOverall: stickerStats.topStickersOverall.map(s => ({
+                    sticker: s.sticker,
+                    count: formatNumber(s.count)
+                }))
             },
             mostActiveMonth: mostActiveMonth ? {
                 name: mostActiveMonth.name,
@@ -184,9 +312,9 @@ function main() {
         const allStats = parser.getAllStats();
         
         // Выводим статистику в консоль
-        console.log('='.repeat(50));
+        console.log('='.repeat(60));
         console.log('📊 СТАТИСТИКА ЧАТА');
-        console.log('='.repeat(50));
+        console.log('='.repeat(60));
         console.log(`Год: ${allStats.year}`);
         console.log(`Имя партнера: ${allStats.partnerName}`);
         console.log('');
@@ -197,6 +325,28 @@ function main() {
         console.log(`Баланс: ${allStats.stats.balance}`);
         console.log(`В среднем за день: ${allStats.stats.averagePerDay}`);
         console.log('');
+        
+        console.log('🎨 Статистика стикеров:');
+        console.log(`Всего стикеров: ${allStats.stickerStats.total}`);
+        console.log(`Мои стикеры: ${allStats.stickerStats.myStickers}`);
+        console.log(`Стикеры ${allStats.partnerName}: ${allStats.stickerStats.partnerStickers}`);
+        console.log('');
+        
+        if (allStats.stickerStats.myTopStickers.length > 0) {
+            console.log('🏆 Мои популярные стикеры:');
+            allStats.stickerStats.myTopStickers.forEach(item => {
+                console.log(`  ${item.sticker} - ${item.count} раз`);
+            });
+            console.log('');
+        }
+        
+        if (allStats.stickerStats.partnerTopStickers.length > 0) {
+            console.log(`🏆 Популярные стикеры ${allStats.partnerName}:`);
+            allStats.stickerStats.partnerTopStickers.forEach(item => {
+                console.log(`  ${item.sticker} - ${item.count} раз`);
+            });
+            console.log('');
+        }
         
         if (allStats.mostActiveMonth) {
             console.log('🔥 Самый активный месяц:');
@@ -212,16 +362,49 @@ function main() {
         }
         
         console.log('');
-        console.log('='.repeat(50));
-        console.log('✅ Код для вставки в HTML:');
-        console.log('='.repeat(50));
+        console.log('='.repeat(60));
+        console.log('✅ Данные для вставки в HTML:');
+        console.log('='.repeat(60));
+        console.log('');
         
+        // Форматируем стикеры для HTML
+        const formatStickers = (stickers) => {
+            if (!stickers || stickers.length === 0) return '';
+            return stickers.map(s => `${s.sticker} — ${s.count} раз`).join('<br>');
+        };
+        
+        console.log('📊 КОПИРУЙТЕ ЭТИ ДАННЫЕ В HTML ФАЙЛ:');
+        console.log('='.repeat(60));
+        console.log('');
+        console.log(`Общее количество сообщений: ${allStats.stats.total}`);
+        console.log(`Ваши сообщения: ${allStats.stats.myMessages}`);
+        console.log(`Сообщения ${allStats.partnerName}: ${allStats.stats.partnerMessages}`);
+        console.log(`Баланс: ${allStats.stats.balance}`);
+        console.log(`Сообщений в среднем за день: ${allStats.stats.averagePerDay}`);
+        console.log('');
+        console.log(`Всего стикеров: ${allStats.stickerStats.total}`);
+        console.log(`Ваши стикеры: ${allStats.stickerStats.myStickers}`);
+        console.log(`Стикеры ${allStats.partnerName}: ${allStats.stickerStats.partnerStickers}`);
+        console.log('');
+        console.log('=== Частые слова (для слайда "words"): ===');
+        console.log(allStats.frequentWords.map(item => `«${item.word}» — ${item.count} раз`).join('<br>'));
+        console.log('');
+        console.log('=== Самые активные стикеры (для слайда с стикерами): ===');
+        console.log(`Топ моих стикеров:`);
+        allStats.stickerStats.myTopStickers.forEach(item => {
+            console.log(`${item.sticker} — ${item.count} раз`);
+        });
+        console.log('');
+        console.log(`Топ стикеров ${allStats.partnerName}:`);
+        allStats.stickerStats.partnerTopStickers.forEach(item => {
+            console.log(`${item.sticker} — ${item.count} раз`);
+        });
         
         // Также сохраняем статистику в отдельный файл
         const outputPath = path.join(__dirname, 'stats.json');
         fs.writeFileSync(outputPath, JSON.stringify(allStats, null, 2));
         console.log('');
-        console.log(`📁 Статистика также сохранена в файл: ${outputPath}`);
+        console.log(`📁 Подробная статистика сохранена в файл: ${outputPath}`);
         
     } catch (error) {
         console.error('❌ Ошибка:', error.message);

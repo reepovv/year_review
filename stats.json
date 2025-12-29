@@ -8,6 +8,61 @@
     "balance": "43/56",
     "averagePerDay": "380"
   },
+  "stickerStats": {
+    "total": "18 297",
+    "myStickers": "6 017",
+    "partnerStickers": "12 280",
+    "myTopStickers": [
+      {
+        "sticker": "video_files/sticker (130).webm",
+        "count": "1 204"
+      },
+      {
+        "sticker": "video_files/sticker (4).webm",
+        "count": "869"
+      },
+      {
+        "sticker": "video_files/sticker (223).webm",
+        "count": "328"
+      }
+    ],
+    "partnerTopStickers": [
+      {
+        "sticker": "video_files/sticker (130).webm",
+        "count": "1 414"
+      },
+      {
+        "sticker": "video_files/sticker (4).webm",
+        "count": "1 265"
+      },
+      {
+        "sticker": "video_files/sticker (29).webm",
+        "count": "780"
+      }
+    ],
+    "topStickersOverall": [
+      {
+        "sticker": "video_files/sticker (130).webm",
+        "count": "2 618"
+      },
+      {
+        "sticker": "video_files/sticker (4).webm",
+        "count": "2 134"
+      },
+      {
+        "sticker": "video_files/sticker (29).webm",
+        "count": "780"
+      },
+      {
+        "sticker": "video_files/sticker (14).webm",
+        "count": "764"
+      },
+      {
+        "sticker": "video_files/sticker (154).webm",
+        "count": "598"
+      }
+    ]
+  },
   "mostActiveMonth": {
     "name": "Январь",
     "count": "21 093"
