@@ -225,6 +225,68 @@
             transform: translateY(30px);
         }
         
+        /* СТИЛИ ДЛЯ ЧЕТВЕРТОГО СЛАЙДА СО СТИКЕРОМ */
+        .fourth-slide {
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+        }
+        
+        .fourth-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1;
+        }
+        
+        .sticker-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            width: 300px;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fadeInScale 1.5s ease-out forwards, float 3s ease-in-out infinite 1.5s;
+            opacity: 0;
+        }
+        
+        .sticker-video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 20px;
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.3);
+        }
+        
+        .fourth-slide-content {
+            position: absolute;
+            bottom: 100px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            z-index: 2;
+            padding: 0 20px;
+        }
+        
+        .fourth-slide-text {
+            font-family: 'MyCustomFont', sans-serif;
+            font-size: 2.2rem;
+            line-height: 1.4;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+            animation: fadeInUp 1.2s ease-out 1.2s forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
         /* ЦИФРЫ В ЛЕВОМ ВЕРХНЕМ УГЛУ ПЕРВОГО СЛАЙДА */
         .year-corner {
             position: absolute;
@@ -587,6 +649,15 @@
                 max-width: 90%;
             }
             
+            .sticker-container {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .fourth-slide-text {
+                font-size: 1.8rem;
+            }
+            
             .first-slide-content {
                 padding: 20px 15px 50px 15px;
             }
@@ -668,6 +739,19 @@
                 max-width: 95%;
             }
             
+            .sticker-container {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .fourth-slide-content {
+                bottom: 70px;
+            }
+            
+            .fourth-slide-text {
+                font-size: 1.4rem;
+            }
+            
             .first-slide-content {
                 padding: 20px 15px 40px 15px;
             }
@@ -700,7 +784,7 @@
     </style>
 </head>
 <body>
-    <div class="slide-indicator" id="slideIndicator">1/16</div>
+    <div class="slide-indicator" id="slideIndicator">1/17</div>
     <div class="swipe-indicator" id="swipeIndicator">
         <div class="swipe-arrow">
             <i class="fas fa-chevron-up"></i>
@@ -737,6 +821,12 @@
                     bigNumberLabel: "стикеров",
                     textLarge: "Мы отправили всего в 2025 году",
                     textSmall: "При чем ты отправила 12 280, а я 6 017. Стикеры с ляльками вместо тысячи слов)"
+                },
+                {
+                    type: "sticker_slide",
+                    backgroundImage: "./images/4.jpg",
+                    stickerVideo: "./images/sticker (130).webm",
+                    text: "Это самый популярный стикер у нас обоих! Ты его использовала 1414 раз, а я 1204 раза."
                 },
                 {
                     type: "stat",
@@ -927,6 +1017,33 @@
                             <p class="third-slide-text-small">${story.textSmall}</p>
                         </div>
                     `;
+                } else if (index === 3 && story.type === "sticker_slide") {
+                    // ЧЕТВЕРТЫЙ СЛАЙД СО СТИКЕРОМ
+                    visual.classList.add('fourth-slide');
+                    visual.style.backgroundImage = `url('${story.backgroundImage}')`;
+                    
+                    visual.innerHTML = `
+                        <div class="sticker-container">
+                            <video class="sticker-video" autoplay loop muted playsinline>
+                                <source src="${story.stickerVideo}" type="video/webm">
+                                Ваш браузер не поддерживает видео.
+                            </video>
+                        </div>
+                        <div class="fourth-slide-content">
+                            <p class="fourth-slide-text">${story.text}</p>
+                        </div>
+                    `;
+                    
+                    // После добавления в DOM, запускаем видео
+                    setTimeout(() => {
+                        const video = visual.querySelector('.sticker-video');
+                        if (video) {
+                            video.play().catch(e => {
+                                console.log('Автовоспроизведение заблокировано:', e);
+                                // Показываем кнопку воспроизведения при необходимости
+                            });
+                        }
+                    }, 100);
                 } else {
                     // ОСТАЛЬНЫЕ СЛАЙДЫ
                     visual.style.background = story.background;
@@ -1112,6 +1229,19 @@
             updateContainerPosition();
             updateSlideIndicator();
             if (currentSlideIndex > 0) hideSwipeIndicator();
+            
+            // Автовоспроизведение видео на 4-м слайде
+            if (currentSlideIndex === 3) {
+                setTimeout(() => {
+                    const video = container.querySelector('#slide-3 .sticker-video');
+                    if (video) {
+                        video.currentTime = 0;
+                        video.play().catch(e => {
+                            console.log('Автовоспроизведение заблокировано');
+                        });
+                    }
+                }, 600); // Ждем завершения анимации перехода
+            }
         }
 
         function updateSlideIndicator() {
