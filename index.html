@@ -243,15 +243,39 @@
             z-index: 1;
         }
 
-        /* УДАЛИТЬ старый sticker-container и заменить на новый */
+        /* ЗАГОЛОВОК ВВЕРХУ */
+        .sticker-title {
+            position: absolute;
+            top: 60px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            z-index: 2;
+            animation: fadeInUp 1.2s ease-out 0.5s forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .sticker-title-text {
+            font-family: 'MyCustomFont', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+            max-width: 90%;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* КОНТЕЙНЕР С ВИДЕО - ПО ЦЕНТРУ */
         .sticker-container {
             position: absolute;
-            top: 50px; /* Отступ сверху */
+            top: 50%;
             left: 50%;
-            transform: translateX(-50%); /* Только по горизонтали */
+            transform: translate(-50%, -50%);
             z-index: 2;
-            width: 300px;
-            height: 300px;
+            width: 280px;
+            height: 280px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -267,7 +291,8 @@
             box-shadow: 0 0 50px rgba(255, 255, 255, 0.3);
         }
         
-        .fourth-slide-content {
+        /* ТЕКСТ ВНИЗУ */
+        .sticker-text-bottom {
             position: absolute;
             bottom: 100px;
             left: 0;
@@ -275,17 +300,19 @@
             text-align: center;
             z-index: 2;
             padding: 0 20px;
-        }
-        
-        .fourth-slide-text {
-            font-family: 'MyCustomFont', sans-serif;
-            font-size: 2.2rem;
-            line-height: 1.4;
-            color: rgba(255, 255, 255, 0.95);
-            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
             animation: fadeInUp 1.2s ease-out 1.2s forwards;
             opacity: 0;
             transform: translateY(30px);
+        }
+        
+        .sticker-description {
+            font-family: 'MyCustomFont', sans-serif;
+            font-size: 1.8rem;
+            line-height: 1.4;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+            max-width: 90%;
+            margin: 0 auto;
         }
         
         /* ЦИФРЫ В ЛЕВОМ ВЕРХНЕМ УГЛУ ПЕРВОГО СЛАЙДА */
@@ -531,12 +558,12 @@
         
         @keyframes float {
             0%, 100% { 
-                transform: translateX(-50%) translateY(0); 
+                transform: translate(-50%, -50%) translateY(0); 
             }
             50% { 
-                transform: translateX(-50%) translateY(-10px); 
+                transform: translate(-50%, -50%) translateY(-10px); 
             }
-}
+        }
         
         @keyframes gradientShift {
             0% { background-position: 0% 50%; }
@@ -654,14 +681,26 @@
                 max-width: 90%;
             }
             
-            .sticker-container {
-                width: 250px;
-                height: 250px;
-                 top: 40px;
+            /* СТИКЕР СЛАЙД - МОБИЛЬНАЯ ВЕРСИЯ */
+            .sticker-title {
+                top: 50px;
             }
             
-            .fourth-slide-text {
-                font-size: 1.8rem;
+            .sticker-title-text {
+                font-size: 2rem;
+            }
+            
+            .sticker-container {
+                width: 230px;
+                height: 230px;
+            }
+            
+            .sticker-text-bottom {
+                bottom: 80px;
+            }
+            
+            .sticker-description {
+                font-size: 1.5rem;
             }
             
             .first-slide-content {
@@ -745,18 +784,26 @@
                 max-width: 95%;
             }
             
+            /* СТИКЕР СЛАЙД - МОБИЛЬНАЯ ВЕРСИЯ */
+            .sticker-title {
+                top: 40px;
+            }
+            
+            .sticker-title-text {
+                font-size: 1.6rem;
+            }
+            
             .sticker-container {
-                width: 200px;
-                height: 200px;
-                top: 30px;
+                width: 180px;
+                height: 180px;
             }
             
-            .fourth-slide-content {
-                bottom: 70px;
+            .sticker-text-bottom {
+                bottom: 60px;
             }
             
-            .fourth-slide-text {
-                font-size: 1.4rem;
+            .sticker-description {
+                font-size: 1.2rem;
             }
             
             .first-slide-content {
@@ -833,6 +880,7 @@
                     type: "sticker_slide",
                     backgroundImage: "./images/4.jpg",
                     stickerVideo: "./images/sticker (130).webm",
+                    title: "Самый популярный стикер",
                     text: "Это самый популярный стикер у нас обоих! Ты его использовала 1414 раз, а я 1204 раза."
                 },
                 {
@@ -1030,14 +1078,17 @@
                     visual.style.backgroundImage = `url('${story.backgroundImage}')`;
                     
                     visual.innerHTML = `
+                        <div class="sticker-title">
+                            <div class="sticker-title-text">${story.title}</div>
+                        </div>
                         <div class="sticker-container">
                             <video class="sticker-video" autoplay loop muted playsinline>
                                 <source src="${story.stickerVideo}" type="video/webm">
                                 Ваш браузер не поддерживает видео.
                             </video>
                         </div>
-                        <div class="fourth-slide-content">
-                            <p class="fourth-slide-text">${story.text}</p>
+                        <div class="sticker-text-bottom">
+                            <p class="sticker-description">${story.text}</p>
                         </div>
                     `;
                     
@@ -1047,7 +1098,6 @@
                         if (video) {
                             video.play().catch(e => {
                                 console.log('Автовоспроизведение заблокировано:', e);
-                                // Показываем кнопку воспроизведения при необходимости
                             });
                         }
                     }, 100);
@@ -1247,7 +1297,7 @@
                             console.log('Автовоспроизведение заблокировано');
                         });
                     }
-                }, 600); // Ждем завершения анимации перехода
+                }, 600);
             }
         }
 
