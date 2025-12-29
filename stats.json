@@ -1,0 +1,57 @@
+{
+  "year": 2025,
+  "partnerName": "любимая",
+  "stats": {
+    "total": "138 709",
+    "myMessages": "60 335",
+    "partnerMessages": "78 252",
+    "balance": "43/56",
+    "averagePerDay": "380"
+  },
+  "mostActiveMonth": {
+    "name": "Январь",
+    "count": "21 093"
+  },
+  "frequentWords": [
+    {
+      "word": "все",
+      "count": "5 160"
+    },
+    {
+      "word": "мне",
+      "count": "5 026"
+    },
+    {
+      "word": "меня",
+      "count": "4 600"
+    },
+    {
+      "word": "тебя",
+      "count": "4 436"
+    },
+    {
+      "word": "просто",
+      "count": "3 269"
+    },
+    {
+      "word": "очень",
+      "count": "2 724"
+    },
+    {
+      "word": "если",
+      "count": "2 584"
+    },
+    {
+      "word": "еще",
+      "count": "2 417"
+    },
+    {
+      "word": "уже",
+      "count": "2 389"
+    },
+    {
+      "word": "люблю",
+      "count": "2 169"
+    }
+  ]
+}

@@ -641,8 +641,8 @@
     <script>
         // Основной скрипт приложения
         const storiesData = {
-            year: 2024,
-            partnerName: "Аня",
+            year: 2025,
+            partnerName: "Ларита",
             stories: [] // Будет заполнено динамически
         };
 
@@ -659,99 +659,50 @@
         let slideHeight = window.innerHeight;
 
         document.addEventListener('DOMContentLoaded', async function() {
-            // Создаем парсер и загружаем данные
-            const parser = new TelegramDataParser();
-            await parser.loadJSON('result.json'); // или путь к вашему файлу
-            
-            // Получаем статистику
-            const stats = parser.getMessageStats();
-            const mostActiveMonth = parser.getMostActiveMonth();
-            const frequentWords = parser.getMostFrequentWords(4);
-            
-            // Форматируем числа
-            const formatNumber = (num) => num.toLocaleString('ru-RU');
             
             // Обновляем storiesData с реальной статистикой
             storiesData.year = new Date().getFullYear();
             storiesData.partnerName = stats.partnerName;
             
-            storiesData.stories = [
-                {
-                    type: "intro",
-                    emoji: "❤️",
-                    title: `Наш ${storiesData.year} год`,
-                    text: "Каждое сообщение — это маленькая история нашей любви. Свайпай вверх, чтобы увидеть наши лучшие моменты!",
-                    backgroundImage: "./images/1.jpg",
-                    backgroundColor: "rgba(102, 126, 234, 0.2)"
-                },
-                {
-                    type: "second_slide",
-                    backgroundImage: "./images/2.jpg",
-                    bigNumber: formatNumber(stats.total),
-                    bigNumberLabel: "Сообщений",
-                    text: `Именно столько сообщений мы написали всего за ${storiesData.year} год!`
-                },
-                {
-                    type: "stat",
-                    emoji: "📅",
-                    title: "Каждый день",
-                    value: formatNumber(stats.averagePerDay),
-                    label: "сообщения в среднем за день",
-                    background: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)"
-                },
-                {
-                    type: "stat",
-                    emoji: "👫",
-                    title: "Баланс",
-                    value: stats.balance,
-                    label: `Ты: ${formatNumber(stats.partnerMessages)}, я: ${formatNumber(stats.myMessages)}`,
-                    background: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)"
-                },
-                // Добавьте остальные слайды как были, но с динамическими данными
-            ];
-            
-            // Добавляем слайды с частыми словами (динамически)
-            if (frequentWords.length > 0) {
-                storiesData.stories.push({
-                    type: "words",
-                    emoji: "🗣️",
-                    title: "Частые слова",
-                    text: frequentWords.map(item => 
-                        `«${item.word}» — ${formatNumber(item.count)} раз`
-                    ).join('<br>'),
-                    background: "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)"
-                });
-            }
-            
-            // Добавляем слайд с самым активным месяцем
-            if (mostActiveMonth) {
-                storiesData.stories.push({
-                    type: "stat",
-                    emoji: "🔥",
-                    title: "Самый активный",
-                    value: mostActiveMonth.name,
-                    label: `Именно в ${mostActiveMonth.name.toLowerCase()} мы общались больше всего`,
-                    background: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)"
-                });
-            }
-            
-            // Добавьте остальные слайды...
-            storiesData.stories.push({
-                type: "moment",
-                emoji: "🍝",
-                title: "14 февраля",
-                text: "Наш первый ужин вместе! Помнишь твою пасту? Она была немного пересолена, но это был самый вкусный ужин в моей жизни ❤️",
-                background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
-            });
-            
-            // Финальный слайд
-            storiesData.stories.push({
-                type: "outro",
-                emoji: "🌟",
-                title: "Спасибо тебе!",
-                text: `За каждый смех, за каждое «доброе утро», за каждую минуту этого невероятного года. Я люблю тебя больше, чем все эти ${formatNumber(stats.total)} цифр могут показать. ❤️`,
-                background: "linear-gradient(135deg, #ff6b8b 0%, #6a5af9 100%)"
-            });
+            const storiesData = {
+                year: 2025,
+                partnerName: "Ларита",
+                
+                stories: [
+                    {
+                        type: "intro",
+                        emoji: "❤️",
+                        title: "Наш 2025 год",
+                        text: "Каждое сообщение — это маленькая история нашей любви. Свайпай вверх, чтобы увидеть наши лучшие моменты!",
+                        backgroundImage: "./images/1.jpg",
+                        backgroundColor: "rgba(102, 126, 234, 0.2)"
+                    },
+                    {
+                        type: "second_slide",
+                        backgroundImage: "./images/2.jpg",
+                        bigNumber: "138,709", // Замените на реальное число
+                        bigNumberLabel: "Сообщений",
+                        text: "Именно столько сообщений мы написали всего за 2025 год!"
+                    },
+                    {
+                        type: "stat",
+                        emoji: "📅",
+                        title: "Каждый день",
+                        value: "34", // Замените на реальное число
+                        label: "сообщения в среднем за день",
+                        background: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)"
+                    },
+                    {
+                        type: "stat",
+                        emoji: "👫",
+                        title: "Баланс",
+                        value: "50/50", // Замените на реальное
+                        label: "Ларита: 6,136, я — 6,342", // Замените на реальное
+                        background: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)"
+                    },
+                    // ... остальные слайды ...
+                ]
+            };
             
             // Обновляем totalSlides после создания stories
             totalSlides = storiesData.stories.length;
