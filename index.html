@@ -314,6 +314,113 @@
             margin: 0 auto;
         }
         
+        /* ПЯТЫЙ СЛАЙД С ТОП-3 СТИКЕРАМИ */
+        .fifth-slide {
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+        }
+
+        .fifth-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1;
+        }
+
+        .top-stickers-container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 80px 15px 40px 15px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            overflow-y: auto;
+        }
+
+        .top-stickers-title {
+            font-family: 'MyCustomFont', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+            margin-bottom: 40px;
+            animation: fadeInUp 1.2s ease-out 0.5s forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .top-stickers-section {
+            width: 100%;
+            max-width: 500px;
+            margin-bottom: 30px;
+            animation: fadeInUp 1.2s ease-out 0.8s forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .section-title {
+            font-family: 'MyCustomFont', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ffcc00;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+        }
+
+        .sticker-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .sticker-row-video {
+            width: 70px;
+            height: 70px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+
+        .sticker-row-video video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .sticker-row-text {
+            font-family: 'MyCustomFont', sans-serif;
+            font-size: 1.6rem;
+            color: white;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+            flex-grow: 1;
+            text-align: left;
+            padding: 0 15px;
+        }
+
+        .sticker-row-count {
+            font-family: 'MyCustomFont', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ffcc00;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+            min-width: 100px;
+            text-align: right;
+        }
+
         /* ЦИФРЫ В ЛЕВОМ ВЕРХНЕМ УГЛУ ПЕРВОГО СЛАЙДА */
         .year-corner {
             position: absolute;
@@ -703,6 +810,39 @@
                 font-size: 1.5rem;
             }
             
+            /* ПЯТЫЙ СЛАЙД - МОБИЛЬНАЯ ВЕРСИЯ */
+            .top-stickers-container {
+                padding: 70px 10px 30px 10px;
+            }
+            
+            .top-stickers-title {
+                font-size: 2rem;
+                margin-bottom: 30px;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .sticker-row {
+                padding: 8px 12px;
+            }
+            
+            .sticker-row-video {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .sticker-row-text {
+                font-size: 1.4rem;
+                padding: 0 10px;
+            }
+            
+            .sticker-row-count {
+                font-size: 1.6rem;
+                min-width: 80px;
+            }
+            
             .first-slide-content {
                 padding: 20px 15px 50px 15px;
             }
@@ -807,6 +947,42 @@
                 font-size: 1.2rem;
             }
             
+            /* ПЯТЫЙ СЛАЙД - МОБИЛЬНАЯ ВЕРСИЯ */
+            .top-stickers-container {
+                padding: 60px 8px 25px 8px;
+            }
+            
+            .top-stickers-title {
+                font-size: 1.8rem;
+                margin-bottom: 25px;
+            }
+            
+            .section-title {
+                font-size: 1.6rem;
+                margin-bottom: 15px;
+            }
+            
+            .sticker-row {
+                padding: 6px 10px;
+                margin-bottom: 12px;
+            }
+            
+            .sticker-row-video {
+                width: 50px;
+                height: 50px;
+                border-radius: 8px;
+            }
+            
+            .sticker-row-text {
+                font-size: 1.2rem;
+                padding: 0 8px;
+            }
+            
+            .sticker-row-count {
+                font-size: 1.4rem;
+                min-width: 70px;
+            }
+            
             .first-slide-content {
                 padding: 20px 15px 40px 15px;
             }
@@ -883,6 +1059,21 @@
                     stickerVideo: "./images/sticker (130).webm",
                     title: "Самый популярный стикер",
                     text: "Это самый популярный стикер у нас обоих! Ты его использовала 1414 раз, а я 1204 раза."
+                },
+                {
+                    type: "top_stickers_slide",
+                    backgroundImage: "./images/4.jpg",
+                    title: "Топ-3 стикеров",
+                    topMisha: [
+                        {video: "./images/sticker (130).webm", count: "1 204 раз"},
+                        {video: "./images/sticker (4).webm", count: "869 раз"},
+                        {video: "./images/sticker (223).webm", count: "328 раз"}
+                    ],
+                    topLarita: [
+                        {video: "./images/sticker (130).webm", count: "1 414 раз"},
+                        {video: "./images/sticker (4).webm", count: "1 265 раз"},
+                        {video: "./images/sticker (29).webm", count: "780 раз"}
+                    ]
                 },
                 {
                     type: "stat",
@@ -1102,6 +1293,68 @@
                             });
                         }
                     }, 100);
+                } else if (index === 4 && story.type === "top_stickers_slide") {
+                    // ПЯТЫЙ СЛАЙД С ТОП-3 СТИКЕРАМИ
+                    visual.classList.add('fifth-slide');
+                    visual.style.backgroundImage = `url('${story.backgroundImage}')`;
+                    
+                    // Создаем HTML для топ-стикеров Миши
+                    let mishaStickersHTML = '';
+                    story.topMisha.forEach((sticker, i) => {
+                        mishaStickersHTML += `
+                            <div class="sticker-row">
+                                <div class="sticker-row-video">
+                                    <video autoplay loop muted playsinline>
+                                        <source src="${sticker.video}" type="video/webm">
+                                    </video>
+                                </div>
+                                <div class="sticker-row-text">Стикер ${i+1}</div>
+                                <div class="sticker-row-count">${sticker.count}</div>
+                            </div>
+                        `;
+                    });
+                    
+                    // Создаем HTML для топ-стикеров Лариты
+                    let laritaStickersHTML = '';
+                    story.topLarita.forEach((sticker, i) => {
+                        laritaStickersHTML += `
+                            <div class="sticker-row">
+                                <div class="sticker-row-video">
+                                    <video autoplay loop muted playsinline>
+                                        <source src="${sticker.video}" type="video/webm">
+                                    </video>
+                                </div>
+                                <div class="sticker-row-text">Стикер ${i+1}</div>
+                                <div class="sticker-row-count">${sticker.count}</div>
+                            </div>
+                        `;
+                    });
+                    
+                    visual.innerHTML = `
+                        <div class="top-stickers-container">
+                            <div class="top-stickers-title">${story.title}</div>
+                            
+                            <div class="top-stickers-section">
+                                <div class="section-title">Топ Миши:</div>
+                                ${mishaStickersHTML}
+                            </div>
+                            
+                            <div class="top-stickers-section">
+                                <div class="section-title">Топ Лариты:</div>
+                                ${laritaStickersHTML}
+                            </div>
+                        </div>
+                    `;
+                    
+                    // После добавления в DOM, запускаем видео
+                    setTimeout(() => {
+                        const videos = visual.querySelectorAll('video');
+                        videos.forEach(video => {
+                            video.play().catch(e => {
+                                console.log('Автовоспроизведение заблокировано:', e);
+                            });
+                        });
+                    }, 100);
                 } else {
                     // ОСТАЛЬНЫЕ СЛАЙДЫ
                     visual.style.background = story.background;
@@ -1298,6 +1551,19 @@
                             console.log('Автовоспроизведение заблокировано');
                         });
                     }
+                }, 600);
+            }
+            
+            // Автовоспроизведение видео на 5-м слайде
+            if (currentSlideIndex === 4) {
+                setTimeout(() => {
+                    const videos = container.querySelectorAll('#slide-4 video');
+                    videos.forEach(video => {
+                        video.currentTime = 0;
+                        video.play().catch(e => {
+                            console.log('Автовоспроизведение заблокировано');
+                        });
+                    });
                 }, 600);
             }
         }
