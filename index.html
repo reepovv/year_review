@@ -478,6 +478,225 @@
             opacity: 0;
             transform: translateY(30px);
         }
+        
+        /* СЕДЬМОЙ СЛАЙД - КРУЖОЧКИ ЛАРИТЫ */
+        .seventh-slide {
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+        }
+        
+        .seventh-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+        
+        .seventh-slide-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 20px 15px 100px 15px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .seventh-slide-text-large {
+            font-family: 'MyCustomFont', sans-serif;
+            font-size: 2.5rem;
+            line-height: 1.4;
+            max-width: 85%;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+            padding: 0 20px;
+            margin-bottom: 30px;
+            animation: fadeInUp 1.2s ease-out 1.2s forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .seventh-slide-text-small {
+            font-family: 'MyCustomFont', sans-serif;
+            font-size: 1.8rem;
+            line-height: 1.4;
+            max-width: 85%;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+            padding: 0 20px;
+            animation: fadeInUp 1.2s ease-out 1.4s forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        /* ВОСЬМОЙ СЛАЙД - ПЕРВЫЙ КРУЖОЧЕК ЛАРИТЫ */
+        .eighth-slide {
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+        }
+        
+        .eighth-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1;
+        }
+        
+        .first-video-title {
+            position: absolute;
+            top: 60px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            z-index: 2;
+            animation: fadeInUp 1.2s ease-out 0.5s forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .first-video-title-text {
+            font-family: 'MyCustomFont', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+            max-width: 90%;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .first-video-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            width: 280px;
+            height: 280px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fadeInScale 1.5s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .first-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.3);
+        }
+        
+        .first-video-text-bottom {
+            position: absolute;
+            bottom: 100px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            z-index: 2;
+            padding: 0 20px;
+            animation: fadeInUp 1.2s ease-out 1.2s forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .first-video-description {
+            font-family: 'MyCustomFont', sans-serif;
+            font-size: 1.8rem;
+            line-height: 1.4;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+            max-width: 90%;
+            margin: 0 auto;
+        }
+        
+        /* ДЕВЯТЫЙ СЛАЙД - КРУЖОЧКИ МИШИ */
+        .ninth-slide {
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+        }
+        
+        .ninth-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+        
+        .ninth-slide-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 20px 15px 100px 15px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .ninth-slide-text-large {
+            font-family: 'MyCustomFont', sans-serif;
+            font-size: 2.5rem;
+            line-height: 1.4;
+            max-width: 85%;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+            padding: 0 20px;
+            margin-bottom: 30px;
+            animation: fadeInUp 1.2s ease-out 1.2s forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .ninth-slide-text-small {
+            font-family: 'MyCustomFont', sans-serif;
+            font-size: 1.8rem;
+            line-height: 1.4;
+            max-width: 85%;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+            padding: 0 20px;
+            animation: fadeInUp 1.2s ease-out 1.4s forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        /* ДЕСЯТЫЙ СЛАЙД - ПЕРВЫЙ КРУЖОЧЕК МИШИ */
+        .tenth-slide {
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+        }
+        
+        .tenth-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1;
+        }
 
         /* ЦИФРЫ В ЛЕВОМ ВЕРХНЕМ УГЛУ ПЕРВОГО СЛАЙДА */
         .year-corner {
@@ -831,19 +1050,25 @@
             
             .second-slide-content,
             .third-slide-content,
-            .sixth-slide-content {
+            .sixth-slide-content,
+            .seventh-slide-content,
+            .ninth-slide-content {
                 padding: 20px 15px 80px 15px;
             }
             
             .second-slide-text,
             .third-slide-text-large,
-            .sixth-slide-text-large {
+            .sixth-slide-text-large,
+            .seventh-slide-text-large,
+            .ninth-slide-text-large {
                 font-size: 1.8rem;
                 max-width: 90%;
             }
             
             .third-slide-text-small,
-            .sixth-slide-text-small {
+            .sixth-slide-text-small,
+            .seventh-slide-text-small,
+            .ninth-slide-text-small {
                 font-size: 1.5rem;
                 max-width: 90%;
             }
@@ -857,18 +1082,30 @@
                 font-size: 2rem;
             }
             
-            .sticker-container {
+            .sticker-container,
+            .first-video-container {
                 width: 230px;
                 height: 230px;
                 top: 35%;
             }
             
-            .sticker-text-bottom {
+            .sticker-text-bottom,
+            .first-video-text-bottom {
                 bottom: 80px;
             }
             
-            .sticker-description {
+            .sticker-description,
+            .first-video-description {
                 font-size: 1.5rem;
+            }
+            
+            /* ЗАГОЛОВКИ ПЕРВЫХ ВИДЕО */
+            .first-video-title {
+                top: 50px;
+            }
+            
+            .first-video-title-text {
+                font-size: 2rem;
             }
             
             /* ПЯТЫЙ СЛАЙД - МОБИЛЬНАЯ ВЕРСИЯ */
@@ -971,19 +1208,25 @@
             
             .second-slide-content,
             .third-slide-content,
-            .sixth-slide-content {
+            .sixth-slide-content,
+            .seventh-slide-content,
+            .ninth-slide-content {
                 padding: 20px 15px 60px 15px;
             }
             
             .second-slide-text,
             .third-slide-text-large,
-            .sixth-slide-text-large {
+            .sixth-slide-text-large,
+            .seventh-slide-text-large,
+            .ninth-slide-text-large {
                 font-size: 1.4rem;
                 max-width: 95%;
             }
             
             .third-slide-text-small,
-            .sixth-slide-text-small {
+            .sixth-slide-text-small,
+            .seventh-slide-text-small,
+            .ninth-slide-text-small {
                 font-size: 1.2rem;
                 max-width: 95%;
             }
@@ -997,18 +1240,30 @@
                 font-size: 2rem;
             }
             
-            .sticker-container {
+            .sticker-container,
+            .first-video-container {
                 width: 180px;
                 height: 180px;
                 top: 35%;
             }
             
-            .sticker-text-bottom {
+            .sticker-text-bottom,
+            .first-video-text-bottom {
                 bottom: 60px;
             }
             
-            .sticker-description {
+            .sticker-description,
+            .first-video-description {
                 font-size: 1.2rem;
+            }
+            
+            /* ЗАГОЛОВКИ ПЕРВЫХ ВИДЕО */
+            .first-video-title {
+                top: 60px;
+            }
+            
+            .first-video-title-text {
+                font-size: 1.8rem;
             }
             
             /* ПЯТЫЙ СЛАЙД - МОБИЛЬНАЯ ВЕРСИЯ */
@@ -1079,7 +1334,7 @@
     </style>
 </head>
 <body>
-    <div class="slide-indicator" id="slideIndicator">1/18</div>
+    <div class="slide-indicator" id="slideIndicator">1/10</div>
     <div class="swipe-indicator" id="swipeIndicator">
         <div class="swipe-arrow">
             <i class="fas fa-chevron-up"></i>
@@ -1105,14 +1360,14 @@
                 {
                     type: "second_slide",
                     backgroundImage: "./images/2.jpg",
-                    bigNumber: "138 709", // Замените это число на реальное из парсера
+                    bigNumber: "138 709",
                     bigNumberLabel: "Сообщений",
                     text: "Именно столько сообщений мы написали всего за 2025 год! При чем я написал 60 335 сообщений, а ты - 78 252. Сразу видно, кто больше любит поболтать)"
                 },
                 {
                     type: "third_slide",
                     backgroundImage: "./images/3.jpg",
-                    bigNumber: "18 297", // Рандомная цифра для стикеров
+                    bigNumber: "18 297",
                     bigNumberLabel: "стикеров",
                     textLarge: "Мы отправили всего в 2025 году",
                     textSmall: "При чем ты отправила 12 280, а я 6 017. Стикеры с ляльками вместо тысячи слов)"
@@ -1140,13 +1395,43 @@
                     ]
                 },
                 {
-                    type: "sixth_slide", // НОВЫЙ СЛАЙД С ВИДЕОСООБЩЕНИЯМИ
+                    type: "sixth_slide",
                     backgroundImage: "./images/7.jpg",
-                    bigNumber: "1 933", // Количество видеосообщений
+                    bigNumber: "1 933",
                     bigNumberLabel: "кружочка",
                     textLarge: "Всего было отправлено нами в 2025 году",
                     textSmall: "Посмотрим подробнее, что и как было?"
                 },
+                {
+                    type: "seventh_slide",
+                    backgroundImage: "./images/5.jpg",
+                    bigNumber: "619",
+                    bigNumberLabel: "кружочков",
+                    textLarge: "Прислала ты",
+                    textSmall: "Это 1 час, 59 минут и 36 секунд, которыми я могу наслаждаться в любое время"
+                },
+                {
+                    type: "eighth_slide",
+                    backgroundImage: "./images/5.jpg",
+                    title: "А этот твой первый кружочек в 2025 году",
+                    video: "./images/video (2).mp4",
+                    text: "Именно так я запомнил тебя на весь год, такой же красивой и счастливой)"
+                },
+                {
+                    type: "ninth_slide",
+                    backgroundImage: "./images/6.jpg",
+                    bigNumber: "1 314",
+                    bigNumberLabel: "кружочков",
+                    textLarge: "Прислал я",
+                    textSmall: "Это 12 часов, 54 минуты и 47 секунд, в которые ты называешь меня своим красивым мальчиком"
+                },
+                {
+                    type: "tenth_slide",
+                    backgroundImage: "./images/6.jpg",
+                    title: "А этот мой первый кружочек в 2025 году",
+                    video: "./images/video.mp4",
+                    text: "Начал год скучно, зато год весь скучным не был)"
+                }
             ]
         };
 
@@ -1341,6 +1626,94 @@
                             <p class="sixth-slide-text-small">${story.textSmall}</p>
                         </div>
                     `;
+                } else if (index === 6 && story.type === "seventh_slide") {
+                    // СЕДЬМОЙ СЛАЙД - КРУЖОЧКИ ЛАРИТЫ
+                    visual.classList.add('seventh-slide');
+                    visual.style.backgroundImage = `url('${story.backgroundImage}')`;
+                    
+                    visual.innerHTML = `
+                        <div class="big-numbers-container">
+                            <div class="big-number">${story.bigNumber}</div>
+                            <div class="big-number-label">${story.bigNumberLabel}</div>
+                        </div>
+                        <div class="seventh-slide-content">
+                            <p class="seventh-slide-text-large">${story.textLarge}</p>
+                            <p class="seventh-slide-text-small">${story.textSmall}</p>
+                        </div>
+                    `;
+                } else if (index === 7 && story.type === "eighth_slide") {
+                    // ВОСЬМОЙ СЛАЙД - ПЕРВЫЙ КРУЖОЧЕК ЛАРИТЫ
+                    visual.classList.add('eighth-slide');
+                    visual.style.backgroundImage = `url('${story.backgroundImage}')`;
+                    
+                    visual.innerHTML = `
+                        <div class="first-video-title">
+                            <div class="first-video-title-text">${story.title}</div>
+                        </div>
+                        <div class="first-video-container">
+                            <video class="first-video" autoplay loop muted playsinline>
+                                <source src="${story.video}" type="video/mp4">
+                                Ваш браузер не поддерживает видео.
+                            </video>
+                        </div>
+                        <div class="first-video-text-bottom">
+                            <p class="first-video-description">${story.text}</p>
+                        </div>
+                    `;
+                    
+                    // После добавления в DOM, запускаем видео
+                    setTimeout(() => {
+                        const video = visual.querySelector('.first-video');
+                        if (video) {
+                            video.play().catch(e => {
+                                console.log('Автовоспроизведение заблокировано:', e);
+                            });
+                        }
+                    }, 100);
+                } else if (index === 8 && story.type === "ninth_slide") {
+                    // ДЕВЯТЫЙ СЛАЙД - КРУЖОЧКИ МИШИ
+                    visual.classList.add('ninth-slide');
+                    visual.style.backgroundImage = `url('${story.backgroundImage}')`;
+                    
+                    visual.innerHTML = `
+                        <div class="big-numbers-container">
+                            <div class="big-number">${story.bigNumber}</div>
+                            <div class="big-number-label">${story.bigNumberLabel}</div>
+                        </div>
+                        <div class="ninth-slide-content">
+                            <p class="ninth-slide-text-large">${story.textLarge}</p>
+                            <p class="ninth-slide-text-small">${story.textSmall}</p>
+                        </div>
+                    `;
+                } else if (index === 9 && story.type === "tenth_slide") {
+                    // ДЕСЯТЫЙ СЛАЙД - ПЕРВЫЙ КРУЖОЧЕК МИШИ
+                    visual.classList.add('tenth-slide');
+                    visual.style.backgroundImage = `url('${story.backgroundImage}')`;
+                    
+                    visual.innerHTML = `
+                        <div class="first-video-title">
+                            <div class="first-video-title-text">${story.title}</div>
+                        </div>
+                        <div class="first-video-container">
+                            <video class="first-video" autoplay loop muted playsinline>
+                                <source src="${story.video}" type="video/mp4">
+                                Ваш браузер не поддерживает видео.
+                            </video>
+                        </div>
+                        <div class="first-video-text-bottom">
+                            <p class="first-video-description">${story.text}</p>
+                        </div>
+                    `;
+                    
+                    // После добавления в DOM, запускаем видео
+                    setTimeout(() => {
+                        const video = visual.querySelector('.first-video');
+                        if (video) {
+                            video.play().catch(e => {
+                                console.log('Автовоспроизведение заблокировано:', e);
+                            });
+                        }
+                    }, 100);
                 } else {
                     // ОСТАЛЬНЫЕ СЛАЙДЫ
                     visual.style.background = story.background;
@@ -1550,6 +1923,32 @@
                             console.log('Автовоспроизведение заблокировано');
                         });
                     });
+                }, 600);
+            }
+            
+            // Автовоспроизведение видео на 8-м слайде
+            if (currentSlideIndex === 7) {
+                setTimeout(() => {
+                    const video = container.querySelector('#slide-7 .first-video');
+                    if (video) {
+                        video.currentTime = 0;
+                        video.play().catch(e => {
+                            console.log('Автовоспроизведение заблокировано');
+                        });
+                    }
+                }, 600);
+            }
+            
+            // Автовоспроизведение видео на 10-м слайде
+            if (currentSlideIndex === 9) {
+                setTimeout(() => {
+                    const video = container.querySelector('#slide-9 .first-video');
+                    if (video) {
+                        video.currentTime = 0;
+                        video.play().catch(e => {
+                            console.log('Автовоспроизведение заблокировано');
+                        });
+                    }
                 }, 600);
             }
         }
