@@ -314,7 +314,7 @@
             margin: 0 auto;
         }
         
-        /* ПЯТЫЙ СЛАЙД С ТОП-3 СТИКЕРАМИ */
+        /* ПЯТЫЙ СЛАЙД С ТОП-3 СТИКЕРАМИ - ИСПРАВЛЕННЫЙ */
         .fifth-slide {
             background-size: cover !important;
             background-position: center !important;
@@ -338,11 +338,12 @@
             flex-direction: column;
             justify-content: flex-start;
             align-items: center;
-            padding: 80px 15px 40px 15px;
+            padding: 50px 15px 30px 15px; /* Уменьшил верхний padding с 80px до 50px */
             text-align: center;
             position: relative;
             z-index: 2;
             overflow-y: auto;
+            max-height: calc(100vh - 80px); /* Ограничиваем высоту */
         }
 
         .top-stickers-title {
@@ -351,7 +352,7 @@
             font-weight: 700;
             color: white;
             text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
-            margin-bottom: 40px;
+            margin-bottom: 20px; /* Уменьшил отступ снизу */
             animation: fadeInUp 1.2s ease-out 0.5s forwards;
             opacity: 0;
             transform: translateY(20px);
@@ -360,7 +361,7 @@
         .top-stickers-section {
             width: 100%;
             max-width: 500px;
-            margin-bottom: 30px;
+            margin-bottom: 15px; /* Уменьшил отступ между секциями */
             animation: fadeInUp 1.2s ease-out 0.8s forwards;
             opacity: 0;
             transform: translateY(20px);
@@ -371,7 +372,7 @@
             font-size: 2rem;
             font-weight: 700;
             color: #ffcc00;
-            margin-bottom: 20px;
+            margin-bottom: 15px; /* Уменьшил отступ */
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
         }
 
@@ -379,8 +380,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 15px;
-            padding: 10px 15px;
+            margin-bottom: 12px; /* Уменьшил отступ между строками */
+            padding: 8px 15px; /* Уменьшил вертикальный padding */
             background: rgba(255, 255, 255, 0.1);
             border-radius: 15px;
             backdrop-filter: blur(10px);
@@ -812,12 +813,12 @@
             
             /* ПЯТЫЙ СЛАЙД - МОБИЛЬНАЯ ВЕРСИЯ */
             .top-stickers-container {
-                padding: 70px 10px 30px 10px;
+                padding: 40px 10px 20px 10px;
             }
             
             .top-stickers-title {
                 font-size: 2rem;
-                margin-bottom: 30px;
+                margin-bottom: 15px;
             }
             
             .section-title {
@@ -949,12 +950,12 @@
             
             /* ПЯТЫЙ СЛАЙД - МОБИЛЬНАЯ ВЕРСИЯ */
             .top-stickers-container {
-                padding: 60px 8px 25px 8px;
+                padding: 35px 8px 15px 8px;
             }
             
             .top-stickers-title {
                 font-size: 1.8rem;
-                margin-bottom: 25px;
+                margin-bottom: 12px;
             }
             
             .section-title {
