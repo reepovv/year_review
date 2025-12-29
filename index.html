@@ -105,17 +105,22 @@
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
+            animation: fadeInScale 1.5s ease-out forwards;
+            opacity: 0;
+            transform: scale(0.8);
         }
         
-         .year-top-line {
+        .year-top-line {
             font-size: 20rem;
             letter-spacing: 8px;
+            animation-delay: 0.3s;
         }
         
         .year-bottom-line {
             font-size: 20rem;
             letter-spacing: 8px;
             margin-top: -45px;
+            animation-delay: 0.5s;
         }
         
         /* ОСНОВНОЙ КОНТЕНТ ПЕРВОГО СЛАЙДА - ОПУЩЕН НИЖЕ */
@@ -123,35 +128,64 @@
             height: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: flex-end; /* Опускаем контент вниз */
+            justify-content: flex-end;
             align-items: center;
-            padding: 40px 15px 80px 15px; /* Увеличиваем нижний отступ */
+            padding: 40px 15px 80px 15px;
             text-align: center;
             position: relative;
             z-index: 2;
         }
         
-        /* ЗАГОЛОВОК - СДЕЛАН БОЛЬШЕ И MYCUSTOMFONT */
+        /* ЗАГОЛОВОК - С АНИМАЦИЕЙ */
         .main-title {
-            font-family: 'MyCustomFont', sans-serif; /* МЕНЯЕМ ШРИФТ */
-            font-size: 4.5rem; /* УВЕЛИЧИВАЕМ РАЗМЕР */
+            font-family: 'MyCustomFont', sans-serif;
+            font-size: 4.5rem;
             margin-bottom: 10px;
             line-height: 1.1;
             font-weight: 700;
             max-width: 90%;
             color: white;
             text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.8);
+            animation: fadeInUp 1.2s ease-out 0.8s forwards;
+            opacity: 0;
+            transform: translateY(30px);
         }
         
-        /* ПОДЗАГОЛОВОК - СДЕЛАН МЕНЬШЕ И MYCUSTOMFONT */
+        /* ПОДЗАГОЛОВОК - С АНИМАЦИЕЙ */
         .subtitle {
-            font-family: 'MyCustomFont', sans-serif; /* МЕНЯЕМ ШРИФТ */
-            font-size: 2.8rem; /* УМЕНЬШАЕМ РАЗМЕР */
+            font-family: 'MyCustomFont', sans-serif;
+            font-size: 2.8rem;
             line-height: 1.3;
             max-width: 85%;
             color: rgba(255, 255, 255, 0.95);
             text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
             padding: 0 20px;
+            animation: fadeInUp 1.2s ease-out 1.2s forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        /* АНИМАЦИИ */
+        @keyframes fadeInScale {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         .story-slide:not(:last-child)::after {
@@ -168,7 +202,7 @@
             filter: brightness(1.1);
         }
         
-        /* ОСТАЛЬНЫЕ СЛАЙДЫ - ВЕЗДЕ MYCUSTOMFONT */
+        /* ОСТАЛЬНЫЕ СЛАЙДЫ */
         .slide-content {
             height: 100%;
             display: flex;
@@ -181,52 +215,71 @@
             z-index: 2;
         }
         
+        /* АНИМАЦИЯ ДЛЯ ЭМОДЗИ НА ВСЕХ СЛАЙДАХ */
         .story-emoji {
             font-size: 4.5rem;
             margin-bottom: 25px;
             display: block;
-            animation: float 3s ease-in-out infinite;
+            animation: fadeInScale 1s ease-out 0.3s forwards, float 3s ease-in-out infinite 1.5s;
+            opacity: 0;
+            transform: scale(0.8);
         }
         
+        /* АНИМАЦИЯ ДЛЯ ЗАГОЛОВКОВ НА ВСЕХ СЛАЙДАХ */
         .story-title {
-            font-family: 'MyCustomFont', sans-serif; /* МЕНЯЕМ ШРИФТ */
+            font-family: 'MyCustomFont', sans-serif;
             font-size: 3.2rem;
             margin-bottom: 25px;
             line-height: 1.2;
             font-weight: 700;
             max-width: 90%;
             text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            animation: fadeInUp 1s ease-out 0.5s forwards;
+            opacity: 0;
+            transform: translateY(20px);
         }
         
+        /* АНИМАЦИЯ ДЛЯ ТЕКСТА НА ВСЕХ СЛАЙДАХ */
         .story-text {
-            font-family: 'MyCustomFont', sans-serif; /* МЕНЯЕМ ШРИФТ */
+            font-family: 'MyCustomFont', sans-serif;
             font-size: 1.8rem;
             line-height: 1.6;
             margin-bottom: 25px;
             max-width: 90%;
             padding: 0 15px;
             text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+            animation: fadeInUp 1s ease-out 0.7s forwards;
+            opacity: 0;
+            transform: translateY(20px);
         }
         
+        /* АНИМАЦИЯ ДЛЯ СТАТИСТИКИ */
         .story-stat-number {
-            font-family: 'MyCustomFont', sans-serif; /* МЕНЯЕМ ШРИФТ */
+            font-family: 'MyCustomFont', sans-serif;
             font-size: 5rem;
             font-weight: 900;
             line-height: 1;
             margin-bottom: 20px;
             display: block;
             text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            animation: fadeInScale 1s ease-out 0.5s forwards;
+            opacity: 0;
+            transform: scale(0.8);
         }
         
         .story-stat-label {
-            font-family: 'MyCustomFont', sans-serif; /* МЕНЯЕМ ШРИФТ */
+            font-family: 'MyCustomFont', sans-serif;
             font-size: 1.9rem;
             line-height: 1.4;
             opacity: 0.95;
             max-width: 90%;
             text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+            animation: fadeInUp 1s ease-out 0.7s forwards;
+            opacity: 0;
+            transform: translateY(20px);
         }
         
+        /* АНИМАЦИЯ ДЛЯ СООБЩЕНИЙ */
         .message-bubble {
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(20px);
@@ -237,10 +290,13 @@
             max-width: 500px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            animation: fadeInScale 1s ease-out 0.5s forwards;
+            opacity: 0;
+            transform: scale(0.95);
         }
         
         .message-author {
-            font-family: 'MyCustomFont', sans-serif; /* МЕНЯЕМ ШРИФТ */
+            font-family: 'MyCustomFont', sans-serif;
             font-weight: 700;
             font-size: 1.5rem;
             margin-bottom: 15px;
@@ -248,14 +304,14 @@
         }
         
         .message-text {
-            font-family: 'MyCustomFont', sans-serif; /* МЕНЯЕМ ШРИФТ */
+            font-family: 'MyCustomFont', sans-serif;
             font-size: 1.6rem;
             line-height: 1.5;
             margin-bottom: 15px;
         }
         
         .message-date {
-            font-family: 'MyCustomFont', sans-serif; /* МЕНЯЕМ ШРИФТ */
+            font-family: 'MyCustomFont', sans-serif;
             font-size: 1.1rem;
             opacity: 0.8;
             text-align: right;
@@ -270,8 +326,19 @@
             animation: gradientShift 5s ease infinite;
         }
         
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
         .slide-indicator {
-            font-family: 'MyCustomFont', sans-serif; /* МЕНЯЕМ ШРИФТ */
+            font-family: 'MyCustomFont', sans-serif;
             position: fixed;
             bottom: 25px;
             right: 25px;
@@ -286,19 +353,8 @@
             font-weight: 600;
         }
         
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
         .swipe-indicator {
-            font-family: 'MyCustomFont', sans-serif; /* МЕНЯЕМ ШРИФТ */
+            font-family: 'MyCustomFont', sans-serif;
             position: fixed;
             bottom: 30px;
             left: 0;
@@ -371,11 +427,11 @@
             }
             
             .main-title {
-                font-size: 3.8rem; /* Уменьшаем для планшетов */
+                font-size: 3.8rem;
             }
             
             .subtitle {
-                font-size: 2.4rem; /* Уменьшаем для планшетов */
+                font-size: 2.4rem;
                 max-width: 90%;
             }
             
@@ -427,12 +483,12 @@
             }
             
             .main-title {
-                font-size: 3rem; /* Уменьшаем для телефонов */
+                font-size: 3rem;
                 margin-bottom: 8px;
             }
             
             .subtitle {
-                font-size: 2rem; /* Уменьшаем для телефонов */
+                font-size: 2rem;
                 max-width: 95%;
             }
             
@@ -633,7 +689,6 @@
                         visual.style.backgroundColor = story.backgroundColor;
                     }
                     
-                    // ПЕРВЫЙ СЛАЙД С ЦИФРАМИ В УГЛУ
                     visual.innerHTML = `
                         <div class="year-corner">
                             <div class="year-line year-top-line">20</div>
