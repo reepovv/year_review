@@ -422,6 +422,63 @@
             text-align: right;
         }
         
+        /* СТИЛИ ДЛЯ ГОЛОСОВЫХ СООБЩЕНИЙ */
+        .voice-slide {
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+        }
+        
+        .voice-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+        
+        .voice-slide-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 20px 15px 100px 15px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .voice-slide-text-large {
+            font-family: 'MyCustomFont', sans-serif;
+            font-size: 2.5rem;
+            line-height: 1.4;
+            max-width: 85%;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+            padding: 0 20px;
+            margin-bottom: 30px;
+            animation: fadeInUp 1.2s ease-out 1.2s forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .voice-slide-text-small {
+            font-family: 'MyCustomFont', sans-serif;
+            font-size: 1.8rem;
+            line-height: 1.4;
+            max-width: 85%;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+            padding: 0 20px;
+            animation: fadeInUp 1.2s ease-out 1.4s forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
         /* ШЕСТОЙ СЛАЙД С ВИДЕОСООБЩЕНИЯМИ */
         .sixth-slide {
             background-size: cover !important;
@@ -1121,6 +1178,7 @@
             
             .second-slide-content,
             .third-slide-content,
+            .voice-slide-content,
             .sixth-slide-content,
             .seventh-slide-content,
             .ninth-slide-content {
@@ -1129,6 +1187,7 @@
             
             .second-slide-text,
             .third-slide-text-large,
+            .voice-slide-text-large,
             .sixth-slide-text-large,
             .seventh-slide-text-large,
             .ninth-slide-text-large {
@@ -1137,6 +1196,7 @@
             }
             
             .third-slide-text-small,
+            .voice-slide-text-small,
             .sixth-slide-text-small,
             .seventh-slide-text-small,
             .ninth-slide-text-small {
@@ -1146,8 +1206,8 @@
 
             .eighth-slide .sticker-container,
             .tenth-slide .sticker-container {
-                width: 230px; /* или 180px для мобилки */
-                height: 230px; /* или 180px для мобилки */
+                width: 230px;
+                height: 230px;
                 top: 35%;
             }
             
@@ -1234,7 +1294,7 @@
 
             .eighth-slide .sticker-title-text,
             .tenth-slide .sticker-title-text {
-                font-size: 1.6rem; /* было 2rem */
+                font-size: 1.6rem;
             }
             
             .story-title { font-size: 2.8rem; }
@@ -1291,6 +1351,7 @@
             
             .second-slide-content,
             .third-slide-content,
+            .voice-slide-content,
             .sixth-slide-content,
             .seventh-slide-content,
             .ninth-slide-content {
@@ -1299,6 +1360,7 @@
             
             .second-slide-text,
             .third-slide-text-large,
+            .voice-slide-text-large,
             .sixth-slide-text-large,
             .seventh-slide-text-large,
             .ninth-slide-text-large {
@@ -1307,6 +1369,7 @@
             }
             
             .third-slide-text-small,
+            .voice-slide-text-small,
             .sixth-slide-text-small,
             .seventh-slide-text-small,
             .ninth-slide-text-small {
@@ -1405,14 +1468,14 @@
 
             .eighth-slide .sticker-container,
             .tenth-slide .sticker-container {
-                width: 180px; /* или 180px для мобилки */
-                height: 180px; /* или 180px для мобилки */
+                width: 180px;
+                height: 180px;
                 top: 35%;
             }
             
             .eighth-slide .sticker-title-text,
             .tenth-slide .sticker-title-text {
-                font-size: 1.4rem; /* было 2rem */
+                font-size: 1.4rem;
             }
 
             .story-title { font-size: 2.4rem; }
@@ -1429,7 +1492,7 @@
     </style>
 </head>
 <body>
-    <div class="slide-indicator" id="slideIndicator">1/10</div>
+    <div class="slide-indicator" id="slideIndicator">1/13</div>
     <div class="swipe-indicator" id="swipeIndicator">
         <div class="swipe-arrow">
             <i class="fas fa-chevron-up"></i>
@@ -1489,6 +1552,32 @@
                         {video: "./images/sticker (29).webm", count: "780 раз"}
                     ]
                 },
+                // НОВЫЕ СЛАЙДЫ ДЛЯ ГОЛОСОВЫХ СООБЩЕНИЙ
+                {
+                    type: "voice_slide_1",
+                    backgroundImage: "./images/8.jpg",
+                    bigNumber: "1 203",
+                    bigNumberLabel: "голосовых сообщений",
+                    textLarge: "Всего было отправлено нами в 2025 году",
+                    textSmall: "Давай посмотрим, как мы голосом делились мыслями!"
+                },
+                {
+                    type: "voice_slide_2",
+                    backgroundImage: "./images/10.jpg",
+                    bigNumber: "117",
+                    bigNumberLabel: "голосовых сообщений",
+                    textLarge: "Прислала ты",
+                    textSmall: "Это 1 час 18 минут и 28 секунд твоего нежного голоса, который я могу слушать в любое время"
+                },
+                {
+                    type: "voice_slide_3",
+                    backgroundImage: "./images/9.jpg",
+                    bigNumber: "1 086",
+                    bigNumberLabel: "голосовых сообщений",
+                    textLarge: "Прислал я",
+                    textSmall: "Это 8 часов 46 минут и 57 секунд моего голоса. Надеюсь, ты не засыпала под мои голосовые сообщения перед сном)"
+                },
+                // СТАРЫЕ СЛАЙДЫ ДЛЯ ВИДЕОСООБЩЕНИЙ
                 {
                     type: "sixth_slide",
                     backgroundImage: "./images/7.jpg",
@@ -1706,7 +1795,22 @@
                             });
                         });
                     }, 100);
-                } else if (index === 5 && story.type === "sixth_slide") {
+                } else if (index >= 5 && index <= 7 && story.type.includes("voice_slide")) {
+                    // СЛАЙДЫ ДЛЯ ГОЛОСОВЫХ СООБЩЕНИЙ
+                    visual.classList.add('voice-slide');
+                    visual.style.backgroundImage = `url('${story.backgroundImage}')`;
+                    
+                    visual.innerHTML = `
+                        <div class="big-numbers-container">
+                            <div class="big-number">${story.bigNumber}</div>
+                            <div class="big-number-label">${story.bigNumberLabel}</div>
+                        </div>
+                        <div class="voice-slide-content">
+                            <p class="voice-slide-text-large">${story.textLarge}</p>
+                            <p class="voice-slide-text-small">${story.textSmall}</p>
+                        </div>
+                    `;
+                } else if (index === 8 && story.type === "sixth_slide") {
                     // ШЕСТОЙ СЛАЙД С ВИДЕОСООБЩЕНИЯМИ
                     visual.classList.add('sixth-slide');
                     visual.style.backgroundImage = `url('${story.backgroundImage}')`;
@@ -1721,7 +1825,7 @@
                             <p class="sixth-slide-text-small">${story.textSmall}</p>
                         </div>
                     `;
-                } else if (index === 6 && story.type === "seventh_slide") {
+                } else if (index === 9 && story.type === "seventh_slide") {
                     // СЕДЬМОЙ СЛАЙД - КРУЖОЧКИ ЛАРИТЫ
                     visual.classList.add('seventh-slide');
                     visual.style.backgroundImage = `url('${story.backgroundImage}')`;
@@ -1736,7 +1840,7 @@
                             <p class="seventh-slide-text-small">${story.textSmall}</p>
                         </div>
                     `;
-                } else if (index === 7 && story.type === "eighth_slide") {
+                } else if (index === 10 && story.type === "eighth_slide") {
                     // ВОСЬМОЙ СЛАЙД - ПЕРВЫЙ КРУЖОЧЕК ЛАРИТЫ
                     visual.classList.add('eighth-slide');
                     visual.style.backgroundImage = `url('${story.backgroundImage}')`;
@@ -1765,7 +1869,7 @@
                             });
                         }
                     }, 100);
-                } else if (index === 8 && story.type === "ninth_slide") {
+                } else if (index === 11 && story.type === "ninth_slide") {
                     // ДЕВЯТЫЙ СЛАЙД - КРУЖОЧКИ МИШИ
                     visual.classList.add('ninth-slide');
                     visual.style.backgroundImage = `url('${story.backgroundImage}')`;
@@ -1780,7 +1884,7 @@
                             <p class="ninth-slide-text-small">${story.textSmall}</p>
                         </div>
                     `;
-                } else if (index === 9 && story.type === "tenth_slide") {
+                } else if (index === 12 && story.type === "tenth_slide") {
                     // ДЕСЯТЫЙ СЛАЙД - ПЕРВЫЙ КРУЖОЧЕК МИШИ
                     visual.classList.add('tenth-slide');
                     visual.style.backgroundImage = `url('${story.backgroundImage}')`;
@@ -2021,10 +2125,10 @@
                 }, 600);
             }
             
-            // Автовоспроизведение видео на 8-м слайде
-            if (currentSlideIndex === 7) {
+            // Автовоспроизведение видео на 11-м слайде (8 для видео Лариты)
+            if (currentSlideIndex === 10) {
                 setTimeout(() => {
-                    const video = container.querySelector('#slide-7 .video-centered');
+                    const video = container.querySelector('#slide-10 .sticker-video');
                     if (video) {
                         video.currentTime = 0;
                         video.play().catch(e => {
@@ -2034,10 +2138,10 @@
                 }, 600);
             }
             
-            // Автовоспроизведение видео на 10-м слайде
-            if (currentSlideIndex === 9) {
+            // Автовоспроизведение видео на 13-м слайде (10 для видео Миши)
+            if (currentSlideIndex === 12) {
                 setTimeout(() => {
-                    const video = container.querySelector('#slide-9 .video-centered');
+                    const video = container.querySelector('#slide-12 .sticker-video');
                     if (video) {
                         video.currentTime = 0;
                         video.play().catch(e => {

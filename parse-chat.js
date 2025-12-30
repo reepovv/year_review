@@ -455,10 +455,190 @@ class TelegramDataParser {
         return mostActiveMonth;
     }
 
+    getVoiceMessages() {
+        if (!this.telegramData || !this.telegramData.messages) {
+            return [];
+        }
+        return this.telegramData.messages.filter(msg => 
+            msg.media_type === 'voice_message' ||
+            (msg.mime_type && msg.mime_type.includes('audio/')) ||
+            (msg.file && msg.file.includes('voice_messages'))
+        );
+    }
+
+    getTotalVoiceMessages() {
+        return this.getVoiceMessages().length;
+    }
+
+    getVoiceMessagesByUser(userName) {
+        const voiceMessages = this.getVoiceMessages();
+        return voiceMessages.filter(msg => msg.from === userName);
+    }
+
+    getVoiceMessageCountByUser(userName) {
+        return this.getVoiceMessagesByUser(userName).length;
+    }
+
+    getTotalVoiceDurationByUser(userName) {
+        const voiceMessages = this.getVoiceMessagesByUser(userName);
+        let totalDuration = 0;
+        
+        voiceMessages.forEach(msg => {
+            if (msg.duration_seconds && typeof msg.duration_seconds === 'number') {
+                totalDuration += msg.duration_seconds;
+            }
+        });
+        
+        return totalDuration;
+    }
+
+    getVoiceMessageStats() {
+        const myName = 'Михаил Страховский';
+        const users = {};
+        
+        // Находим имена пользователей
+        this.telegramData.messages.forEach(msg => {
+            if (msg.from) {
+                users[msg.from] = true;
+            }
+        });
+
+        const userNames = Object.keys(users);
+        const partnerName = userNames.find(name => name !== myName) || 'Партнер';
+
+        const totalVoiceMessages = this.getTotalVoiceMessages();
+        const myVoiceMessages = this.getVoiceMessageCountByUser(myName);
+        const partnerVoiceMessages = this.getVoiceMessageCountByUser(partnerName);
+        
+        const myVoiceDuration = this.getTotalVoiceDurationByUser(myName);
+        const partnerVoiceDuration = this.getTotalVoiceDurationByUser(partnerName);
+        const totalVoiceDuration = myVoiceDuration + partnerVoiceDuration;
+
+        return {
+            total: totalVoiceMessages,
+            myVoiceMessages: myVoiceMessages,
+            partnerVoiceMessages: partnerVoiceMessages,
+            myVoiceDuration: myVoiceDuration,
+            partnerVoiceDuration: partnerVoiceDuration,
+            totalVoiceDuration: totalVoiceDuration,
+            myVoiceDurationFormatted: this.formatDuration(myVoiceDuration),
+            partnerVoiceDurationFormatted: this.formatDuration(partnerVoiceDuration),
+            totalVoiceDurationFormatted: this.formatDuration(totalVoiceDuration),
+            partnerName: partnerName,
+            myName: myName
+        };
+    }
+
+    getFirstVoiceMessage() {
+        const voiceMessages = this.getVoiceMessages();
+        
+        if (voiceMessages.length === 0) {
+            return null;
+        }
+        
+        // Сортируем по дате (самый ранний первый)
+        const sortedMessages = voiceMessages.sort((a, b) => {
+            const timeA = a.date_unixtime ? parseInt(a.date_unixtime) : 0;
+            const timeB = b.date_unixtime ? parseInt(b.date_unixtime) : 0;
+            return timeA - timeB;
+        });
+        
+        return sortedMessages[0];
+    }
+
+    getFirstVoiceMessageDetails() {
+        const firstVoiceMessage = this.getFirstVoiceMessage();
+        
+        if (!firstVoiceMessage) {
+            return {
+                exists: false,
+                message: "Голосовых сообщений не найдено"
+            };
+        }
+        
+        return {
+            exists: true,
+            file: firstVoiceMessage.file || "Не указан",
+            date: firstVoiceMessage.date || "Не указана",
+            from: firstVoiceMessage.from || "Не указан",
+            duration_seconds: firstVoiceMessage.duration_seconds || 0,
+            duration_formatted: this.formatDuration(firstVoiceMessage.duration_seconds || 0),
+            file_size: firstVoiceMessage.file_size || 0,
+            file_size_formatted: this.formatFileSize(firstVoiceMessage.file_size || 0)
+        };
+    }
+
+    getMostFrequentVoiceMessagesByUser(userName, limit = 5) {
+        const voiceMessages = this.getVoiceMessagesByUser(userName);
+        
+        // Группируем по продолжительности (близкие значения считаем одинаковыми)
+        const durationMap = {};
+        const durationRanges = [
+            { min: 0, max: 5, label: "0-5 сек" },
+            { min: 6, max: 15, label: "6-15 сек" },
+            { min: 16, max: 30, label: "16-30 сек" },
+            { min: 31, max: 60, label: "31-60 сек" },
+            { min: 61, max: 120, label: "1-2 мин" },
+            { min: 121, max: 300, label: "2-5 мин" },
+            { min: 301, max: Infinity, label: "более 5 мин" }
+        ];
+        
+        voiceMessages.forEach(msg => {
+            const duration = msg.duration_seconds || 0;
+            let rangeLabel = "другое";
+            
+            for (const range of durationRanges) {
+                if (duration >= range.min && duration <= range.max) {
+                    rangeLabel = range.label;
+                    break;
+                }
+            }
+            
+            durationMap[rangeLabel] = (durationMap[rangeLabel] || 0) + 1;
+        });
+
+        return Object.entries(durationMap)
+            .sort(([, a], [, b]) => b - a)
+            .slice(0, limit)
+            .map(([durationRange, count]) => ({ 
+                durationRange: durationRange,
+                count: count 
+            }));
+    }
+
+    getAllVoiceStats() {
+        const voiceStats = this.getVoiceMessageStats();
+        const myName = 'Михаил Страховский';
+        const partnerName = voiceStats.partnerName;
+        
+        const myVoicePatterns = this.getMostFrequentVoiceMessagesByUser(myName, 3);
+        const partnerVoicePatterns = this.getMostFrequentVoiceMessagesByUser(partnerName, 3);
+        const firstVoiceDetails = this.getFirstVoiceMessageDetails();
+
+        return {
+            total: voiceStats.total,
+            myVoiceMessages: voiceStats.myVoiceMessages,
+            partnerVoiceMessages: voiceStats.partnerVoiceMessages,
+            myVoiceDuration: voiceStats.myVoiceDuration,
+            partnerVoiceDuration: voiceStats.partnerVoiceDuration,
+            totalVoiceDuration: voiceStats.totalVoiceDuration,
+            myVoiceDurationFormatted: voiceStats.myVoiceDurationFormatted,
+            partnerVoiceDurationFormatted: voiceStats.partnerVoiceDurationFormatted,
+            totalVoiceDurationFormatted: voiceStats.totalVoiceDurationFormatted,
+            myVoicePatterns: myVoicePatterns,
+            partnerVoicePatterns: partnerVoicePatterns,
+            firstVoiceMessage: firstVoiceDetails,
+            partnerName: partnerName,
+            myName: myName
+        };
+    }
+
+    // Обновляем метод getAllStats для включения голосовых сообщений:
     getAllStats() {
         const stats = this.getMessageStats();
         const stickerStats = this.getAllStickerStats();
         const videoStats = this.getAllVideoStats();
+        const voiceStats = this.getAllVoiceStats(); // Добавляем голосовые
         const mostActiveMonth = this.getMostActiveMonth();
         const frequentWords = this.getMostFrequentWords(10);
         
@@ -490,6 +670,23 @@ class TelegramDataParser {
                     count: formatNumber(p.count)
                 })),
                 firstVideoMessage: videoStats.firstVideoMessage
+            },
+            voiceStats: {  // Добавляем секцию голосовых сообщений
+                total: formatNumber(voiceStats.total),
+                myVoiceMessages: formatNumber(voiceStats.myVoiceMessages),
+                partnerVoiceMessages: formatNumber(voiceStats.partnerVoiceMessages),
+                myVoiceDuration: voiceStats.myVoiceDurationFormatted,
+                partnerVoiceDuration: voiceStats.partnerVoiceDurationFormatted,
+                totalVoiceDuration: voiceStats.totalVoiceDurationFormatted,
+                myVoicePatterns: voiceStats.myVoicePatterns.map(p => ({
+                    durationRange: p.durationRange,
+                    count: formatNumber(p.count)
+                })),
+                partnerVoicePatterns: voiceStats.partnerVoicePatterns.map(p => ({
+                    durationRange: p.durationRange,
+                    count: formatNumber(p.count)
+                })),
+                firstVoiceMessage: voiceStats.firstVoiceMessage
             },
             stickerStats: {
                 total: formatNumber(stickerStats.total),
@@ -555,6 +752,29 @@ function main() {
         console.log(`Общая длительность видео ${allStats.partnerName}: ${allStats.videoStats.partnerVideoDuration}`);
         console.log(`Общая длительность всех видео: ${allStats.videoStats.totalVideoDuration}`);
         console.log('');
+
+        console.log('🎙️ Статистика голосовых сообщений:');
+        console.log(`Всего голосовых: ${allStats.voiceStats.total}`);
+        console.log(`Мои голосовые: ${allStats.voiceStats.myVoiceMessages}`);
+        console.log(`Голосовые ${allStats.partnerName}: ${allStats.voiceStats.partnerVoiceMessages}`);
+        console.log(`Общая длительность моих голосовых: ${allStats.voiceStats.myVoiceDuration}`);
+        console.log(`Общая длительность голосовых ${allStats.partnerName}: ${allStats.voiceStats.partnerVoiceDuration}`);
+        console.log(`Общая длительность всех голосовых: ${allStats.voiceStats.totalVoiceDuration}`);
+        console.log('');
+        
+        // Выводим информацию о первом голосовом сообщении
+        console.log('📅 Первое голосовое сообщение:');
+        const firstVoice = allStats.voiceStats.firstVoiceMessage;
+        if (firstVoice.exists) {
+            console.log(`Файл: ${firstVoice.file}`);
+            console.log(`Дата: ${firstVoice.date}`);
+            console.log(`От: ${firstVoice.from}`);
+            console.log(`Длительность: ${firstVoice.duration_formatted}`);
+            console.log(`Размер: ${firstVoice.file_size_formatted}`);
+        } else {
+            console.log(firstVoice.message);
+        }
+        console.log('');
         
         // Выводим информацию о первом видеосообщении
         console.log('📅 Первое видеосообщение:');
@@ -605,57 +825,7 @@ function main() {
             });
         }
         
-        console.log('');
-        console.log('='.repeat(60));
-        console.log('✅ Данные для вставки в HTML:');
-        console.log('='.repeat(60));
-        console.log('');
-        
-        // Форматируем данные для HTML
-        const formatStickers = (stickers) => {
-            if (!stickers || stickers.length === 0) return '';
-            return stickers.map(s => `${s.sticker} — ${s.count} раз`).join('<br>');
-        };
-        
-        console.log('📊 КОПИРУЙТЕ ЭТИ ДАННЫЕ В HTML ФАЙЛ:');
-        console.log('='.repeat(60));
-        console.log('');
-        console.log(`Общее количество сообщений: ${allStats.stats.total}`);
-        console.log(`Ваши сообщения: ${allStats.stats.myMessages}`);
-        console.log(`Сообщения ${allStats.partnerName}: ${allStats.stats.partnerMessages}`);
-        console.log(`Баланс: ${allStats.stats.balance}`);
-        console.log(`Сообщений в среднем за день: ${allStats.stats.averagePerDay}`);
-        console.log('');
-        console.log(`Всего видеосообщений: ${allStats.videoStats.total}`);
-        console.log(`Ваши видеосообщения: ${allStats.videoStats.myVideoMessages}`);
-        console.log(`Видеосообщения ${allStats.partnerName}: ${allStats.videoStats.partnerVideoMessages}`);
-        console.log(`Длительность ваших видео: ${allStats.videoStats.myVideoDuration}`);
-        console.log(`Длительность видео ${allStats.partnerName}: ${allStats.videoStats.partnerVideoDuration}`);
-        console.log(`Общая длительность видео: ${allStats.videoStats.totalVideoDuration}`);
-        console.log('');
-        console.log(`Всего стикеров: ${allStats.stickerStats.total}`);
-        console.log(`Ваши стикеры: ${allStats.stickerStats.myStickers}`);
-        console.log(`Стикеры ${allStats.partnerName}: ${allStats.stickerStats.partnerStickers}`);
-        console.log('');
-        console.log('=== Частые слова (для слайда "words"): ===');
-        console.log(allStats.frequentWords.map(item => `«${item.word}» — ${item.count} раз`).join('<br>'));
-        console.log('');
-        console.log('=== Самые активные стикеры (для слайда с стикерами): ===');
-        console.log(`Топ моих стикеров:`);
-        allStats.stickerStats.myTopStickers.forEach(item => {
-            console.log(`${item.sticker} — ${item.count} раз`);
-        });
-        console.log('');
-        console.log(`Топ стикеров ${allStats.partnerName}:`);
-        allStats.stickerStats.partnerTopStickers.forEach(item => {
-            console.log(`${item.sticker} — ${item.count} раз`);
-        });
-        
-        // Также сохраняем статистику в отдельный файл
-        const outputPath = path.join(__dirname, 'stats.json');
-        fs.writeFileSync(outputPath, JSON.stringify(allStats, null, 2));
-        console.log('');
-        console.log(`📁 Подробная статистика сохранена в файл: ${outputPath}`);
+    
         
     } catch (error) {
         console.error('❌ Ошибка:', error.message);
