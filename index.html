@@ -536,11 +536,79 @@
             transform: translateY(30px);
         }
         
-        /* ВОСЬМОЙ СЛАЙД - ПЕРВЫЙ КРУЖОЧЕК ЛАРИТЫ */
-        .eighth-slide {
-            background-size: cover !important;
-            background-position: center !important;
-            background-repeat: no-repeat !important;
+        .eighth-slide .sticker-container,
+        .tenth-slide .sticker-container {
+            position: absolute;
+            top: 35%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            width: 280px;
+            height: 280px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fadeInScale 1.5s ease-out forwards, float 3s ease-in-out infinite 1.5s;
+            opacity: 0;
+        }
+
+        .eighth-slide .sticker-video,
+        .tenth-slide .sticker-video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 20px;
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.3);
+        }
+
+        .eighth-slide .sticker-title,
+        .tenth-slide .sticker-title {
+            position: absolute;
+            top: 60px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            z-index: 2;
+            animation: fadeInUp 1.2s ease-out 0.5s forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .eighth-slide .sticker-title-text,
+        .tenth-slide .sticker-title-text {
+            font-family: 'MyCustomFont', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+            max-width: 90%;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .eighth-slide .sticker-text-bottom,
+        .tenth-slide .sticker-text-bottom {
+            position: absolute;
+            bottom: 100px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            z-index: 2;
+            padding: 0 20px;
+            animation: fadeInUp 1.2s ease-out 1.2s forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .eighth-slide .sticker-description,
+        .tenth-slide .sticker-description {
+            font-family: 'MyCustomFont', sans-serif;
+            font-size: 1.8rem;
+            line-height: 1.4;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+            max-width: 90%;
+            margin: 0 auto;
         }
         
         .eighth-slide::before {
@@ -577,7 +645,8 @@
             padding: 0 20px;
         }
         
-        .first-video-container {
+        /* ФИКС ДЛЯ ВИДЕО КОНТЕЙНЕРА - ВАЖНО! */
+        .video-container-centered {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -590,9 +659,11 @@
             align-items: center;
             animation: fadeInScale 1.5s ease-out forwards;
             opacity: 0;
+            margin: 0;
+            padding: 0;
         }
         
-        .first-video {
+        .video-centered {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -1083,7 +1154,7 @@
             }
             
             .sticker-container,
-            .first-video-container {
+            .video-container-centered {
                 width: 230px;
                 height: 230px;
                 top: 35%;
@@ -1241,7 +1312,7 @@
             }
             
             .sticker-container,
-            .first-video-container {
+            .video-container-centered {
                 width: 180px;
                 height: 180px;
                 top: 35%;
@@ -1647,23 +1718,23 @@
                     visual.style.backgroundImage = `url('${story.backgroundImage}')`;
                     
                     visual.innerHTML = `
-                        <div class="first-video-title">
-                            <div class="first-video-title-text">${story.title}</div>
+                        <div class="sticker-title">
+                            <div class="sticker-title-text">${story.title}</div>
                         </div>
-                        <div class="first-video-container">
-                            <video class="first-video" autoplay loop muted playsinline>
+                        <div class="sticker-container">
+                            <video class="sticker-video" autoplay loop muted playsinline>
                                 <source src="${story.video}" type="video/mp4">
                                 Ваш браузер не поддерживает видео.
                             </video>
                         </div>
-                        <div class="first-video-text-bottom">
-                            <p class="first-video-description">${story.text}</p>
+                        <div class="sticker-text-bottom">
+                            <p class="sticker-description">${story.text}</p>
                         </div>
                     `;
                     
                     // После добавления в DOM, запускаем видео
                     setTimeout(() => {
-                        const video = visual.querySelector('.first-video');
+                        const video = visual.querySelector('.video-centered');
                         if (video) {
                             video.play().catch(e => {
                                 console.log('Автовоспроизведение заблокировано:', e);
@@ -1691,23 +1762,23 @@
                     visual.style.backgroundImage = `url('${story.backgroundImage}')`;
                     
                     visual.innerHTML = `
-                        <div class="first-video-title">
-                            <div class="first-video-title-text">${story.title}</div>
+                        <div class="sticker-title">
+                            <div class="sticker-title-text">${story.title}</div>
                         </div>
-                        <div class="first-video-container">
-                            <video class="first-video" autoplay loop muted playsinline>
+                        <div class="sticker-container">
+                            <video class="sticker-video" autoplay loop muted playsinline>
                                 <source src="${story.video}" type="video/mp4">
                                 Ваш браузер не поддерживает видео.
                             </video>
                         </div>
-                        <div class="first-video-text-bottom">
-                            <p class="first-video-description">${story.text}</p>
+                        <div class="sticker-text-bottom">
+                            <p class="sticker-description">${story.text}</p>
                         </div>
                     `;
                     
                     // После добавления в DOM, запускаем видео
                     setTimeout(() => {
-                        const video = visual.querySelector('.first-video');
+                        const video = visual.querySelector('.video-centered');
                         if (video) {
                             video.play().catch(e => {
                                 console.log('Автовоспроизведение заблокировано:', e);
@@ -1929,7 +2000,7 @@
             // Автовоспроизведение видео на 8-м слайде
             if (currentSlideIndex === 7) {
                 setTimeout(() => {
-                    const video = container.querySelector('#slide-7 .first-video');
+                    const video = container.querySelector('#slide-7 .video-centered');
                     if (video) {
                         video.currentTime = 0;
                         video.play().catch(e => {
@@ -1942,7 +2013,7 @@
             // Автовоспроизведение видео на 10-м слайде
             if (currentSlideIndex === 9) {
                 setTimeout(() => {
-                    const video = container.querySelector('#slide-9 .first-video');
+                    const video = container.querySelector('#slide-9 .video-centered');
                     if (video) {
                         video.currentTime = 0;
                         video.play().catch(e => {
