@@ -480,7 +480,7 @@
         }
         
         /* СЕДЬМОЙ СЛАЙД - КРУЖОЧКИ ЛАРИТЫ */
-        .seventh-slide {
+        .seventh-slide, .eighth-slide {
             background-size: cover !important;
             background-position: center !important;
             background-repeat: no-repeat !important;
@@ -1758,7 +1758,7 @@
                     
                     // После добавления в DOM, запускаем видео
                     setTimeout(() => {
-                        const video = visual.querySelector('.video-centered');
+                        const video = visual.querySelector('.sticker-video');
                         if (video) {
                             video.play().catch(e => {
                                 console.log('Автовоспроизведение заблокировано:', e);
@@ -1802,7 +1802,7 @@
                     
                     // После добавления в DOM, запускаем видео
                     setTimeout(() => {
-                        const video = visual.querySelector('.video-centered');
+                        const video = visual.querySelector('.sticker-video');
                         if (video) {
                             video.play().catch(e => {
                                 console.log('Автовоспроизведение заблокировано:', e);
