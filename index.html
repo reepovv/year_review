@@ -168,6 +168,63 @@
             transform: translateY(30px);
         }
         
+        /* СТИЛИ ДЛЯ СЛАЙДА С АКТИВНЫМ МЕСЯЦЕМ */
+        .active-month-slide {
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+        }
+        
+        .active-month-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+        
+        .active-month-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 20px 15px 100px 15px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .active-month-title {
+            font-family: 'MyCustomFont', sans-serif;
+            font-size: 2.5rem;
+            line-height: 1.4;
+            max-width: 85%;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+            padding: 0 20px;
+            margin-bottom: 30px;
+            animation: fadeInUp 1.2s ease-out 1.2s forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .active-month-text {
+            font-family: 'MyCustomFont', sans-serif;
+            font-size: 1.8rem;
+            line-height: 1.4;
+            max-width: 85%;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+            padding: 0 20px;
+            animation: fadeInUp 1.2s ease-out 1.4s forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
         /* СТИЛИ ДЛЯ ТРЕТЬЕГО СЛАЙДА */
         .third-slide {
             background-size: cover !important;
@@ -1244,6 +1301,7 @@
             }
             
             .second-slide-content,
+            .active-month-content,
             .third-slide-content,
             .voice-slide-content,
             .sixth-slide-content,
@@ -1253,6 +1311,7 @@
             }
             
             .second-slide-text,
+            .active-month-title,
             .third-slide-text-large,
             .voice-slide-text-large,
             .sixth-slide-text-large,
@@ -1262,6 +1321,7 @@
                 max-width: 90%;
             }
             
+            .active-month-text,
             .third-slide-text-small,
             .voice-slide-text-small,
             .sixth-slide-text-small,
@@ -1432,6 +1492,7 @@
             }
             
             .second-slide-content,
+            .active-month-content,
             .third-slide-content,
             .voice-slide-content,
             .sixth-slide-content,
@@ -1441,6 +1502,7 @@
             }
             
             .second-slide-text,
+            .active-month-title,
             .third-slide-text-large,
             .voice-slide-text-large,
             .sixth-slide-text-large,
@@ -1450,6 +1512,7 @@
                 max-width: 95%;
             }
             
+            .active-month-text,
             .third-slide-text-small,
             .voice-slide-text-small,
             .sixth-slide-text-small,
@@ -1589,7 +1652,7 @@
     </style>
 </head>
 <body>
-    <div class="slide-indicator" id="slideIndicator">1/14</div>
+    <div class="slide-indicator" id="slideIndicator">1/15</div>
     <div class="swipe-indicator" id="swipeIndicator">
         <div class="swipe-arrow">
             <i class="fas fa-chevron-up"></i>
@@ -1618,6 +1681,12 @@
                     bigNumber: "138 709",
                     bigNumberLabel: "Сообщений",
                     text: "Именно столько сообщений мы написали всего за 2025 год! При чем я написал 60 335 сообщений, а ты - 78 252. Сразу видно, кто больше любит поболтать)"
+                },
+                {
+                    type: "active_month_slide",
+                    backgroundImage: "./images/12.jpg",
+                    title: "А самый активный месяц у нас - Январь!",
+                    text: "Именно в январе мы написали 21 093 сообщения, то есть 680 сообщений каждый день. В январе мы друг без друга скучали меньше всего)"
                 },
                 {
                     type: "third_slide",
@@ -1649,7 +1718,7 @@
                         {video: "./images/sticker (29).webm", count: "780 раз"}
                     ]
                 },
-                // НОВЫЕ СЛАЙДЫ ДЛЯ ГОЛОСОВЫХ СООБЩЕНИЙ
+                // СЛАЙДЫ ДЛЯ ГОЛОСОВЫХ СООБЩЕНИЙ
                 {
                     type: "voice_slide_1",
                     backgroundImage: "./images/8.jpg",
@@ -1674,7 +1743,7 @@
                     textLarge: "Прислал я",
                     textSmall: "Это 8 часов 46 минут и 57 секунд моего голоса. Надеюсь, ты не засыпала под мои голосовые сообщения перед сном)"
                 },
-                // СТАРЫЕ СЛАЙДЫ ДЛЯ ВИДЕОСООБЩЕНИЙ
+                // СЛАЙДЫ ДЛЯ ВИДЕОСООБЩЕНИЙ
                 {
                     type: "sixth_slide",
                     backgroundImage: "./images/7.jpg",
@@ -1718,7 +1787,7 @@
                     type: "final_slide",
                     backgroundImage: "./images/11.jpg",
                     title: "На этом все!",
-                    textMain: "Спасибо тебе большое за прекрасный 2025 год!",
+                    textMain: "Спасибо тебе большое за прекрасный 2025 год",
                     textBottom: "Увидимся в 2026!"
                 }
             ]
@@ -1794,7 +1863,18 @@
                             <p class="second-slide-text">${story.text}</p>
                         </div>
                     `;
-                } else if (index === 2 && story.type === "third_slide") {
+                } else if (index === 2 && story.type === "active_month_slide") {
+                    // СЛАЙД О САМОМ АКТИВНОМ МЕСЯЦЕ
+                    visual.classList.add('active-month-slide');
+                    visual.style.backgroundImage = `url('${story.backgroundImage}')`;
+                    
+                    visual.innerHTML = `
+                        <div class="active-month-content">
+                            <p class="active-month-title">${story.title}</p>
+                            <p class="active-month-text">${story.text}</p>
+                        </div>
+                    `;
+                } else if (index === 3 && story.type === "third_slide") {
                     // ТРЕТИЙ СЛАЙД С ФОНОМ И ЦИФРАМИ
                     visual.classList.add('third-slide');
                     visual.style.backgroundImage = `url('${story.backgroundImage}')`;
@@ -1809,7 +1889,7 @@
                             <p class="third-slide-text-small">${story.textSmall}</p>
                         </div>
                     `;
-                } else if (index === 3 && story.type === "sticker_slide") {
+                } else if (index === 4 && story.type === "sticker_slide") {
                     // ЧЕТВЕРТЫЙ СЛАЙД СО СТИКЕРОМ
                     visual.classList.add('fourth-slide');
                     visual.style.backgroundImage = `url('${story.backgroundImage}')`;
@@ -1838,7 +1918,7 @@
                             });
                         }
                     }, 100);
-                } else if (index === 4 && story.type === "top_stickers_slide") {
+                } else if (index === 5 && story.type === "top_stickers_slide") {
                     // ПЯТЫЙ СЛАЙД С ТОП-3 СТИКЕРАМИ
                     visual.classList.add('fifth-slide');
                     visual.style.backgroundImage = `url('${story.backgroundImage}')`;
@@ -1900,7 +1980,7 @@
                             });
                         });
                     }, 100);
-                } else if (index >= 5 && index <= 7 && story.type.includes("voice_slide")) {
+                } else if (index >= 6 && index <= 8 && story.type.includes("voice_slide")) {
                     // СЛАЙДЫ ДЛЯ ГОЛОСОВЫХ СООБЩЕНИЙ
                     visual.classList.add('voice-slide');
                     visual.style.backgroundImage = `url('${story.backgroundImage}')`;
@@ -1915,7 +1995,7 @@
                             <p class="voice-slide-text-small">${story.textSmall}</p>
                         </div>
                     `;
-                } else if (index === 8 && story.type === "sixth_slide") {
+                } else if (index === 9 && story.type === "sixth_slide") {
                     // ШЕСТОЙ СЛАЙД С ВИДЕОСООБЩЕНИЯМИ
                     visual.classList.add('sixth-slide');
                     visual.style.backgroundImage = `url('${story.backgroundImage}')`;
@@ -1930,7 +2010,7 @@
                             <p class="sixth-slide-text-small">${story.textSmall}</p>
                         </div>
                     `;
-                } else if (index === 9 && story.type === "seventh_slide") {
+                } else if (index === 10 && story.type === "seventh_slide") {
                     // СЕДЬМОЙ СЛАЙД - КРУЖОЧКИ ЛАРИТЫ
                     visual.classList.add('seventh-slide');
                     visual.style.backgroundImage = `url('${story.backgroundImage}')`;
@@ -1945,7 +2025,7 @@
                             <p class="seventh-slide-text-small">${story.textSmall}</p>
                         </div>
                     `;
-                } else if (index === 10 && story.type === "eighth_slide") {
+                } else if (index === 11 && story.type === "eighth_slide") {
                     // ВОСЬМОЙ СЛАЙД - ПЕРВЫЙ КРУЖОЧЕК ЛАРИТЫ
                     visual.classList.add('eighth-slide');
                     visual.style.backgroundImage = `url('${story.backgroundImage}')`;
@@ -1974,7 +2054,7 @@
                             });
                         }
                     }, 100);
-                } else if (index === 11 && story.type === "ninth_slide") {
+                } else if (index === 12 && story.type === "ninth_slide") {
                     // ДЕВЯТЫЙ СЛАЙД - КРУЖОЧКИ МИШИ
                     visual.classList.add('ninth-slide');
                     visual.style.backgroundImage = `url('${story.backgroundImage}')`;
@@ -1989,7 +2069,7 @@
                             <p class="ninth-slide-text-small">${story.textSmall}</p>
                         </div>
                     `;
-                } else if (index === 12 && story.type === "tenth_slide") {
+                } else if (index === 13 && story.type === "tenth_slide") {
                     // ДЕСЯТЫЙ СЛАЙД - ПЕРВЫЙ КРУЖОЧЕК МИШИ
                     visual.classList.add('tenth-slide');
                     visual.style.backgroundImage = `url('${story.backgroundImage}')`;
@@ -2018,7 +2098,7 @@
                             });
                         }
                     }, 100);
-                } else if (index === 13 && story.type === "final_slide") {
+                } else if (index === 14 && story.type === "final_slide") {
                     // ФИНАЛЬНЫЙ СЛАЙД
                     visual.classList.add('final-slide');
                     visual.style.backgroundImage = `url('${story.backgroundImage}')`;
@@ -2216,10 +2296,10 @@
             updateSlideIndicator();
             if (currentSlideIndex > 0) hideSwipeIndicator();
             
-            // Автовоспроизведение видео на 4-м слайде
-            if (currentSlideIndex === 3) {
+            // Автовоспроизведение видео на 5-м слайде (стикер)
+            if (currentSlideIndex === 4) {
                 setTimeout(() => {
-                    const video = container.querySelector('#slide-3 .sticker-video');
+                    const video = container.querySelector('#slide-4 .sticker-video');
                     if (video) {
                         video.currentTime = 0;
                         video.play().catch(e => {
@@ -2229,10 +2309,10 @@
                 }, 600);
             }
             
-            // Автовоспроизведение видео на 5-м слайде
-            if (currentSlideIndex === 4) {
+            // Автовоспроизведение видео на 6-м слайде (топ стикеров)
+            if (currentSlideIndex === 5) {
                 setTimeout(() => {
-                    const videos = container.querySelectorAll('#slide-4 video');
+                    const videos = container.querySelectorAll('#slide-5 video');
                     videos.forEach(video => {
                         video.currentTime = 0;
                         video.play().catch(e => {
@@ -2242,10 +2322,10 @@
                 }, 600);
             }
             
-            // Автовоспроизведение видео на 11-м слайде (8 для видео Лариты)
-            if (currentSlideIndex === 10) {
+            // Автовоспроизведение видео на 12-м слайде (видео Лариты)
+            if (currentSlideIndex === 11) {
                 setTimeout(() => {
-                    const video = container.querySelector('#slide-10 .sticker-video');
+                    const video = container.querySelector('#slide-11 .sticker-video');
                     if (video) {
                         video.currentTime = 0;
                         video.play().catch(e => {
@@ -2255,10 +2335,10 @@
                 }, 600);
             }
             
-            // Автовоспроизведение видео на 13-м слайде (10 для видео Миши)
-            if (currentSlideIndex === 12) {
+            // Автовоспроизведение видео на 14-м слайде (видео Миши)
+            if (currentSlideIndex === 13) {
                 setTimeout(() => {
-                    const video = container.querySelector('#slide-12 .sticker-video');
+                    const video = container.querySelector('#slide-13 .sticker-video');
                     if (video) {
                         video.currentTime = 0;
                         video.play().catch(e => {
